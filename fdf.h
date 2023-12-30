@@ -1,9 +1,10 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define WINDOW_WIDTH 600
-# define WINDOW_HEIGHT 300
+# define WINDOW_WIDTH 900
+# define WINDOW_HEIGHT 600
 # define MLX_ERROR 1
+
 
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -23,6 +24,18 @@
 # include <X11/keysym.h>
 # include "lib/libft/libft.h"
 # include "lib/minilibx-linux/mlx.h"
+
+typedef struct s_line
+{
+	int	*z_value;
+	int	n_cols;
+}	t_line;
+
+typedef struct s_map
+{
+	t_line	*rows;
+	int n_rows;
+}	t_map;
 
 typedef struct s_rect
 {
@@ -46,6 +59,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
+	t_map	map;
 	t_img	img;
 }	t_data;
 
@@ -60,6 +74,9 @@ char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int 
 
 int render_rect(t_img *img, t_rect rect);
 int render(t_data *data);
+
+void import_map(char *str, t_data *data);
+char	*get_next_line(int fd);
 
 
 #endif

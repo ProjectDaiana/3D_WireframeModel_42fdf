@@ -25,17 +25,28 @@
 # include "lib/libft/libft.h"
 # include "lib/minilibx-linux/mlx.h"
 
-typedef struct s_line
-{
-	int	*z_value;
-	int	n_cols;
-}	t_line;
-
 typedef struct s_map
 {
-	t_line	*rows;
-	int n_rows;
+	int	**z_value;
+	int	n_cols;
+	int	n_rows;
+	int color;
 }	t_map;
+
+// data->map->z_value[3][2]
+// n_cols[3]
+
+// typedef struct s_line
+// {
+// 	int	*z_value;
+// 	int	n_cols;
+// }	t_line;
+
+// typedef struct s_map
+// {
+// 	t_line	*rows;
+// 	int n_rows;
+// }	t_map;
 
 typedef struct s_rect
 {
@@ -72,7 +83,7 @@ void	*mlx_new_image(void *mlx_ptr,int width,int height);
 void	img_pix_put(t_img *img, int x, int y, int color);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
 
-int render_rect(t_img *img, t_rect rect);
+//int render_rect(t_img *img, t_rect rect);
 int render(t_data *data);
 
 void import_map(char *str, t_data *data);

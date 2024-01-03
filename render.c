@@ -137,12 +137,7 @@ void rotate45(t_img *img, t_map *map)
 		while (y < map->n_cols)
 		{
 			z = map->z_value[(int)x][(int)y];
-				//
-			// x45 = (x-y)*10;
-			// y45 = ((x+y) / 2 - z) * 10;
-			// x45 = (x * cos(a) + y *cos(a+correction) + z*cos(a-correction)) * scale;
-			// y45 = (x * sin(a) + y *sin(a+correction) + z*sin(a-correction)) * scale;
-		
+			
 			//This works with angle of 30
 			x45 = (x *cos(a) -y *cos(a))*scale;
 			y45 = (x *sin(a) + y *sin(a)-z)*scale;
@@ -177,11 +172,11 @@ int render(t_data *data)
 	//render_hline(&data->img, (t_rect){600, 150, 0, 0, RED_PIXEL});
 
 	//render_hline(&data->img, data->map);
-//	render_vline(&data->img, &data->map);
+	//render_vline(&data->img, &data->map);
 	//draw_dots(&data->img, &data->map);
-	rotate45(&data->img, &data->map);
 	//render_vline(&data->img, &data.map->rows.n_cols);
-
+	
+	rotate45(&data->img, &data->map);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 	return(0);
 }

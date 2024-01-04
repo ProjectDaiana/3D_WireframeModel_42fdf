@@ -11,10 +11,10 @@ void	render_background(t_data *data, int color)
     if (data->win_ptr == NULL)
         return ;
     i = 0;
-    while (i < WINDOW_HEIGHT)
+    while (i < V_HEIGHT)
     {
         j = 0;
-        while (j < WINDOW_WIDTH)
+        while (j < V_WIDTH)
             mlx_pixel_put(data->mlx_ptr, data->win_ptr, j++, i, color);
         ++i;
     }
@@ -35,15 +35,6 @@ int render_rect(t_img *img, t_rect rect)
 	}
 	return (0);
 }
-
-///////////////// DRAW
-// void	img_pix_put(t_img *img, int x, int y, int color)
-// {
-//     char    *pixel;
-
-//     pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-//     *(int *)pixel = color;
-// }
 
 int render_hline(t_img *img, t_map map)
 {
@@ -86,7 +77,35 @@ int render_vline(t_img *img, t_map *map)
 	return (0);
 }
 
-int draw_dots(t_img *img, t_map *map)
+///////////////// DRAW
+void	img_pix_put(t_img *img, int x, int y, int color)
+{
+    char    *pixel;
+
+    pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+    *(int *)pixel = color;
+}
+
+// void	img_pix_put(t_img *img, int x, int y, int color)
+// {
+//     char    *pixel;
+//     int		i;
+
+//     i = img->bpp - 8;
+//     pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+//     while (i >= 0)
+//     {
+//         /* big endian, MSB is the leftmost bit */
+//         if (img->endian != 0)
+//             *pixel++ = (color >> i) & 0xFF;
+//         /* little endian, LSB is the leftmost bit */
+//         else
+//             *pixel++ = (color >> (img->bpp - 8 - i)) & 0xFF;
+//         i -= 8;
+//     }
+// }
+
+int draw_grid(t_img *img, t_map *map)
 {
 	int x;
 	int y;
@@ -94,7 +113,6 @@ int draw_dots(t_img *img, t_map *map)
 	int offset;
 	
 	x = 0;
-	
 	zoom = 20;
 	offset = 100;
 
@@ -111,26 +129,20 @@ int draw_dots(t_img *img, t_map *map)
 	return(0);
 }
 
-void rotate45(t_img *img, t_map *map)
+void draw_perspective_grid(t_img *img, t_map *map)
 {
 	double x;
 	double y;
 	int z;
-	double offset;
-	double a;
 	double scale;
+	double x_pers;
+	double y_pers;
+	double a;
+	a = 30.0 / 180 * 3.141592653589;
 
-	// a = 3.141592653589 / 4.0;
-	a = 30;
-	a = a / 180 * 3.141592653589;
-	//correction = 2 / 180 * 3.141592653589;
-	// a = 2/3 * 3.14159;
-	scale = 50;
 	x = 0;
-	double x45;
-	double y45;
-	offset = 300;
-	
+	scale = 10;
+
 	while(x < map->n_rows)
 	{
 		y = 0;
@@ -139,21 +151,35 @@ void rotate45(t_img *img, t_map *map)
 			z = map->z_value[(int)x][(int)y];
 			
 			//This works with angle of 30
-			x45 = (x *cos(a) -y *cos(a))*scale;
-			y45 = (x *sin(a) + y *sin(a)-z)*scale;
+			// x_pers = (x *cos(a) -y *cos(a))*scale;
+			// y_pers = (x *sin(a) + y *sin(a)-z)*scale;
 
 			// Or this works
-			// x45 = (x * 1/sqrt(2) + y * (-1)/sqrt(2))*scale;
-			// y45 = (x * 1/sqrt(6) + y * 1/sqrt(6) - z)*scale;
+			// x_pers = (x * 1/sqrt(2) + y * (-1)/sqrt(2))*scale;
+			// y_pers = (x * 1/sqrt(6) + y * 1/sqrt(6) - z)*scale;
 
 			// This only rotates
-			// x45 = (x*cos(a) - y *sin(a))*scale;
-			// y45 = (x*sin(a) + y*cos(a))*scale;
+			// x_pers = (x*cos(a) - y *sin(a))*scale;
+			// y_pers = (x*sin(a) + y*cos(a))*scale;
 
+			double x_offset = x - map->n_rows / 2;
+            double y_offset = y - map->n_cols / 2;
 
-			
-			printf("x=%f, x45=%f, y=%f, y45=%f\n", x, x45, y, y45);
-			img_pix_put(img, x45+ offset, y45+ offset, GRN_PIXEL);
+			// Passing a 
+			// x_pers = x *cos(a) - y *cos(a);
+			// y_pers = (x *sin(a) + y *cos(a)) * cos(a) - z * sin(a);
+			// x_pers = x_pers *scale;
+			// y_pers = y_pers *scale;
+
+			//y_pers = (y_pers * cos(a) - z * sin(a))*scale;
+
+			// Passing arrow keys rotates
+			x_pers = (-x_offset *cos(map->a_z) - y_offset *sin(map->a_z))*scale;
+			y_pers = -x_offset *sin(map->a_z) + y_offset *cos(map->a_z);
+			y_pers = (y_pers * cos(map->a_x) - z * sin(map->a_x))*scale;
+
+			// printf("x=%f, x_pers=%f, y=%f, y_pers=%f\n", x, x_pers, y, y_pers);
+			img_pix_put(img, x_pers + V_WIDTH/2, y_pers + V_HEIGHT/2, GRN_PIXEL);
 			y++;
 		}
 		x++;
@@ -164,19 +190,26 @@ int render(t_data *data)
 {
 	if (data->win_ptr == NULL)
 		return (1);
-	//render_rect(&data->img, (t_rect){WINDOW_WIDTH - 100, WINDOW_HEIGHT - 100, 100, 100, GRN_PIXEL});
+	//render_rect(&data->img, (t_rect){V_WIDTH - 100, V_HEIGHT - 100, 100, 100, GRN_PIXEL});
     //render_rect(&data->img, (t_rect){0, 0, 20, 20, RED_PIXEL});
-	//render_vline(&data->img, (t_rect){WINDOW_WIDTH/2, WINDOW_HEIGHT/2, 0, 300, GRN_PIXEL});
+	//render_vline(&data->img, (t_rect){V_WIDTH/2, V_HEIGHT/2, 0, 300, GRN_PIXEL});
 	
 	//TRANSLATION(t_rect){row end of line, col start of line, }
 	//render_hline(&data->img, (t_rect){600, 150, 0, 0, RED_PIXEL});
 
 	//render_hline(&data->img, data->map);
 	//render_vline(&data->img, &data->map);
-	//draw_dots(&data->img, &data->map);
+	//draw_grid(&data->img, &data->map);
 	//render_vline(&data->img, &data.map->rows.n_cols);
-	
-	rotate45(&data->img, &data->map);
+
+	static double last_a_z;
+	static double last_a_x;
+	if (data->img.mlx_img && (last_a_z != data->map.a_z || last_a_x != data->map.a_x))
+	{
+		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+		data->img.mlx_img = mlx_new_image(data->mlx_ptr, V_WIDTH, V_HEIGHT);
+	}
+	draw_perspective_grid(&data->img, &data->map);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 	return(0);
 }

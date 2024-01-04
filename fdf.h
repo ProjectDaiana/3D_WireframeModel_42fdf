@@ -1,8 +1,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define WINDOW_WIDTH 900
-# define WINDOW_HEIGHT 600
+# define V_WIDTH 900
+# define V_HEIGHT 600
 # define MLX_ERROR 1
 
 
@@ -20,6 +20,7 @@
 #define BLU_PIXEL 0x0055FF
 
 # include <stdlib.h>
+# include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include "lib/libft/libft.h"
@@ -30,23 +31,10 @@ typedef struct s_map
 	int	**z_value;
 	int	n_cols;
 	int	n_rows;
+	double	a_x;
+	double	a_z;
 	int color;
 }	t_map;
-
-// data->map->z_value[3][2]
-// n_cols[3]
-
-// typedef struct s_line
-// {
-// 	int	*z_value;
-// 	int	n_cols;
-// }	t_line;
-
-// typedef struct s_map
-// {
-// 	t_line	*rows;
-// 	int n_rows;
-// }	t_map;
 
 typedef struct s_rect
 {

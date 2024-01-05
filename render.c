@@ -137,9 +137,7 @@ void draw_perspective_grid(t_img *img, t_map *map)
 	double scale;
 	double x_pers;
 	double y_pers;
-	double a;
-	a = 30.0 / 180 * 3.141592653589;
-
+	
 	x = 0;
 	scale = 10;
 

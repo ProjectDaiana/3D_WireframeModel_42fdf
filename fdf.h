@@ -4,7 +4,7 @@
 # define V_WIDTH 900
 # define V_HEIGHT 600
 # define MLX_ERROR 1
-
+# define PI 3.141592653589
 
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"

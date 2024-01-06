@@ -1,8 +1,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define V_WIDTH 900
-# define V_HEIGHT 600
+# define V_WIDTH 1200
+# define V_HEIGHT 860
 # define MLX_ERROR 1
 # define PI 3.141592653589
 
@@ -26,14 +26,21 @@
 # include "lib/libft/libft.h"
 # include "lib/minilibx-linux/mlx.h"
 
+typedef struct s_coords
+{
+	int x_pers;
+	int y_pers;
+	double z;
+} t_coords;
+
 typedef struct s_map
 {
-	int	**z_value;
 	int	n_cols;
 	int	n_rows;
 	double	a_x;
 	double	a_z;
 	int color;
+	t_coords **coords;
 }	t_map;
 
 typedef struct s_rect
@@ -74,6 +81,7 @@ char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int 
 //int render_rect(t_img *img, t_rect rect);
 int render(t_data *data);
 
+void free_arr2D(char **arr2D);
 void import_map(char *str, t_data *data);
 char	*get_next_line(int fd);
 

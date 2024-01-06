@@ -8,15 +8,25 @@ void free_stuff(t_map *map)
 	i = 0;
 	while(i < map->n_rows)
 	{
-			free(map->z_value[i]);
+			free(map->coords[i]);
 			i++;
 	}
-free(map->z_value);
+free(map->coords);
+}
+
+void free_arr2D(char **arr2D)
+{
+	int i;
+
+	i = 0;
+	while (arr2D[i] != NULL && arr2D[i][0] != '\n')
+		free(arr2D[i++]);
+	free(arr2D);
 }
 
 int main(int argc, char **argv)
 {
-	t_data	data;
+	static t_data	data;
 	static t_map	map;
 	(void) argc;
 
@@ -29,16 +39,16 @@ int main(int argc, char **argv)
         free(data.win_ptr);
         return (MLX_ERROR);
     }
-
+	import_map(argv[1], &data);
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, V_WIDTH, V_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
 			&data.img.line_len, &data.img.endian);
 
 	//mlx_loop_hook(data.mlx_ptr, &handle_no_event, &data);
 	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
-	mlx_loop_hook(data.mlx_ptr, &render, &data);
 
-	import_map(argv[1], &data);
+	mlx_loop_hook(data.mlx_ptr, &render, &data);
+	
 
 	//printf("Z value is: %d\n", data.map.rows[2].z_value[2]);
 	//printf("X value is: %d\n", data.map.rows[data.map.n_rows - 1].z_value[data.map.rows[data.map.n_rows - 1].n_cols - 1]);
@@ -50,11 +60,8 @@ int main(int argc, char **argv)
 
 	mlx_loop(data.mlx_ptr);
 
-
 	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
-//	mlx_destroy_display(data.mlx_ptr);
-
-
+	mlx_destroy_display(data.mlx_ptr);
 	free_stuff(&map);
 	free(data.mlx_ptr);
 }

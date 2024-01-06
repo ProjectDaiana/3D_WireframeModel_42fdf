@@ -1,5 +1,5 @@
 NAME=fdf
-CFLAGS= -Wextra -Wall -Werror -I/usr/local/include
+CFLAGS= -g -Wextra -Wall -Werror -I/usr/local/include
 LIBFT= lib/libft/libft.a
 MLX = -L./lib/minilibx-linux -lmlx -lXext -lX11 -lm
 CC=cc

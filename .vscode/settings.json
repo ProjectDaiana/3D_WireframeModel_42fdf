@@ -1,5 +1,9 @@
 {
 	"files.associations": {
-		"x.h": "c"
+		"x.h": "c",
+		"libft.h": "c",
+		"mlx.h": "c",
+		"keysym.h": "c",
+		"stdlib.h": "c"
 	}
 }

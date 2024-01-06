@@ -18,13 +18,14 @@ void line_to_intarr(char *str, t_data *data, int row)
 		while (intarr[col] != NULL && intarr[col][0] != '\n')
 			col++;
 		data->map.n_cols = col;
-		data->map.z_value[row] = malloc(sizeof(int)*col);
+		data->map.coords[row] = malloc((sizeof(t_coords)*col));
 		col = 0;
 		while (intarr[col] != NULL && intarr[col][0] != '\n')
 		{
-			data->map.z_value[row][col] = ft_atoi(intarr[col]);
+			data->map.coords[row][col].z = ft_atoi(intarr[col]);
 			col++;
 		}
+		free_arr2D(intarr);
 }
 
 int count_rows(int fd)
@@ -47,10 +48,10 @@ void import_map(char *filename, t_data * data)
 	i = 0;
 	fd = open(filename, O_RDONLY);
 	data->map.n_rows = count_rows(fd);
-	data->map.z_value = malloc (sizeof(int *)* data->map.n_rows);
+	data->map.coords = malloc ((sizeof(t_coords *)* data->map.n_rows));
 	///PRINT NUM OF ROWS
 	//printf("%d rows\n", data->map.n_rows);
-	//close(fd);
+	close(fd);
 	//data->map.n_rows=malloc(sizeof(int)*data->map.n_rows);
 	fd = open(filename, O_RDONLY);
 	while(i < data->map.n_rows)
@@ -58,4 +59,5 @@ void import_map(char *filename, t_data * data)
 		line_to_intarr(get_next_line(fd), data, i);
 		i++;
 	}
+	//close(fd);
 }

@@ -1,29 +1,6 @@
 #include <stdio.h>
 #include "fdf.h"
 
-void free_stuff(t_map *map)
-{
-	int i;
-
-	i = 0;
-	while(i < map->n_rows)
-	{
-			free(map->coords[i]);
-			i++;
-	}
-free(map->coords);
-}
-
-void free_arr2D(char **arr2D)
-{
-	int i;
-
-	i = 0;
-	while (arr2D[i] != NULL && arr2D[i][0] != '\n')
-		free(arr2D[i++]);
-	free(arr2D);
-}
-
 int main(int argc, char **argv)
 {
 	static t_data	data;
@@ -33,14 +10,14 @@ int main(int argc, char **argv)
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
         return (MLX_ERROR);
-	data.win_ptr = mlx_new_window(data.mlx_ptr, V_WIDTH, V_HEIGHT, "fdf");
+	data.win_ptr = mlx_new_window(data.mlx_ptr, W_WIDTH, W_HEIGHT, "fdf");
 	if (data.win_ptr == NULL)
     {
         free(data.win_ptr);
         return (MLX_ERROR);
     }
 	import_map(argv[1], &data);
-	data.img.mlx_img = mlx_new_image(data.mlx_ptr, V_WIDTH, V_HEIGHT);
+	data.img.mlx_img = mlx_new_image(data.mlx_ptr, W_WIDTH, W_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
 			&data.img.line_len, &data.img.endian);
 

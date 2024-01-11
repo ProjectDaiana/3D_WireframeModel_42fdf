@@ -4,6 +4,9 @@
 		"libft.h": "c",
 		"mlx.h": "c",
 		"keysym.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"fdf.h": "c",
+		"math.h": "c",
+		"cmath": "c"
 	}
 }

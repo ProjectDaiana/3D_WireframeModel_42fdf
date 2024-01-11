@@ -1,8 +1,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define V_WIDTH 1200
-# define V_HEIGHT 860
+# define W_WIDTH 1200
+# define W_HEIGHT 860
 # define MLX_ERROR 1
 # define PI 3.141592653589
 
@@ -15,9 +15,10 @@
 # define WHT "\e[0;37m"
 # define RESET "\033[0m"
 
-#define RED_PIXEL 0xFF0055
-#define GRN_PIXEL 0x00FF55
-#define BLU_PIXEL 0x0055FF
+# define R(a) (a) >> 16
+# define G(a) ((a) >> 8) & 0xFF
+# define B(a) (a) & 0xFF
+# define RGB(a, b, c) ((a) << 16) + ((b) << 8) + (c) 
 
 # include <stdlib.h>
 # include <math.h>
@@ -77,13 +78,15 @@ int	handle_keyrelease(int keysym, void *data);
 void	*mlx_new_image(void *mlx_ptr,int width,int height);
 void	img_pix_put(t_img *img, int x, int y, int color);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
-
-//int render_rect(t_img *img, t_rect rect);
 int render(t_data *data);
 
+void free_stuff(t_map *map);
 void free_arr2D(char **arr2D);
+
 void import_map(char *str, t_data *data);
 char	*get_next_line(int fd);
+
+int	gradient(int startcolor, int endcolor, int len, int pix);
 
 
 #endif

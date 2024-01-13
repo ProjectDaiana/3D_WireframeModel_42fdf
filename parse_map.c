@@ -44,6 +44,8 @@ void import_map(char *filename, t_data * data)
 	int i;
 	data->map.a_x = 30.0/180 *PI;
 	data->map.a_z = 30.0/180 *PI;
+	data->map.scale = 30;
+	data->map.center = 2;
 
 	i = 0;
 	fd = open(filename, O_RDONLY);

@@ -16,33 +16,39 @@ int	handle_input(int keysym, t_data *data)
 
 int	handle_keypress(int keysym, t_data *data)
 {
-	(void)*data;
+	//(void)*data;
     if (keysym == XK_Escape)
 	{
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		exit(0);
 	}
 	if (keysym == XK_Left)
-	{
 		data->map.a_z += 0.1;
-		printf("a_left: %f\n", data->map.a_z);
-	}
 	if (keysym == XK_Right)
-	{
 		data->map.a_z -= 0.1;
-		printf("a_right: %f\n", data->map.a_z);
-	}
 	if (keysym == XK_Up)
-	{
 		data->map.a_x += 0.1;
-		printf("a_up: %f\n", data->map.a_x);
-	}
 	if (keysym == XK_Down)
-	{
 		data->map.a_x -= 0.1;
-		printf("a_down: %f\n", data->map.a_x);
+	if (keysym == XK_Down)
+		data->map.a_x -= 0.1;
+	if (keysym == XK_KP_Add)
+		data->map.scale += 10;
+	if (keysym == XK_KP_Subtract)
+		data->map.scale -= 10;
+    // printf("Keypress: %d\n", keysym);
+	return(0);
+}
+
+int handle_leftclick(int click, t_img *img)
+{
+
+	if (click == 1)
+	{
+		printf("click: %d\n",click);
+		img->mid = 2;
 	}
-//    printf("Keypress: %d\n", keysym);
+	
 	return(0);
 }
 

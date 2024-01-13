@@ -132,57 +132,6 @@
 //     }
 // }
 
-
-void	img_pix_put(t_img *img, int x, int y, int color)
-{
-    char    *pixel;
-
-	x = x + W_WIDTH/2;
-	y= y + W_HEIGHT/2;
-	if (x >= 0 && x <= W_WIDTH && y >= 0 && y <= W_HEIGHT)
-	{
-    	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
-    	*(int *)pixel = color;
-	}
-}
-
-void perspectivate(t_map *map, int scale)
-{
-	int z_val;
-	int x;
-	int y;
-	
-	x = 0;
-	while(x < map->n_rows)
-	{
-		y = 0;
-		while (y < map->n_cols)
-		{
-			z_val = (map->coords[x][y].z)*scale;
-
-			/// OFFFSET
-			double x_offset = (x - map->n_rows / 2)*scale;
-            double y_offset = (y - map->n_cols / 2)*scale;
-
-			// Passing arrow keys to rotate
-			map->coords[x][y].x_pers = (-x_offset *cos(map->a_z) - y_offset *sin(map->a_z));
-			map->coords[x][y].y_pers = -x_offset *sin(map->a_z) + y_offset *cos(map->a_z);
-			map->coords[x][y].y_pers = (map->coords[x][y].y_pers * cos(map->a_x) - z_val * sin(map->a_x));
-
-			////// NO OFFSET
-			// map->coords[x][y].x_pers = x * cos(map->a_z) - y * sin(map->a_z);
-			// map->coords[x][y].y_pers = (x * sin(map->a_z) + (y)*cos(map->a_z)) * cos(map->a_x) - z_val * sin(map->a_x);
-
-			// map->coords[x][y].x_pers *= scale;
-			// map->coords[x][y].y_pers *= scale;
-
-			// printf("x=%f, x_pers=%f, y=%f, y_pers=%f\n", x, x_pers, y, y_pers);
-			//img_pix_put(img, map->coords[x][y].x_pers + W_WIDTH/2, map->coords[x][y].y_pers + W_HEIGHT/2, G);
-			y++;
-		}
-		x++;
-	}
-}
 // ///// LONG B. Algorithm
 // void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2) 
 // {
@@ -269,9 +218,62 @@ void perspectivate(t_map *map, int scale)
 //  }
 // //////////
 
+void	img_pix_put(t_img *img, int x, int y, int color)
+{
+    char    *pixel;
+	img->mid = 2;
+	x = x + W_WIDTH/img->mid;
+	y= y + W_HEIGHT/img->mid;
+	if (x >= 0 && x <= W_WIDTH && y >= 0 && y <= W_HEIGHT)
+	{
+    	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+    	*(int *)pixel = color;
+	}
+}
+
+void perspectivate(t_map *map)
+{
+	int z_val;
+	int x;
+	int y;
+	double x_offset;
+	double y_offset;
+
+	x = 0;
+	//map->center = 2;
+	while(x < map->n_rows)
+	{
+		y = 0;
+		while (y < map->n_cols)
+		{
+			z_val = (map->coords[x][y].z)*map->scale;
+
+			/// OFFFSET
+			x_offset = (x - map->n_rows / map->center)*map->scale;
+            y_offset = (y - map->n_cols / map->center)*map->scale;
+			// printf("OFFSET IS: %f\n", x_offset);
+			// Passing arrow keys to rotate
+			map->coords[x][y].x_pers = (-x_offset *cos(map->a_z) - y_offset *sin(map->a_z));
+			map->coords[x][y].y_pers = -x_offset *sin(map->a_z) + y_offset *cos(map->a_z);
+			map->coords[x][y].y_pers = (map->coords[x][y].y_pers * cos(map->a_x) - z_val * sin(map->a_x));
+
+			////// NO OFFSET
+			// map->coords[x][y].x_pers = x * cos(map->a_z) - y * sin(map->a_z);
+			// map->coords[x][y].y_pers = (x * sin(map->a_z) + (y)*cos(map->a_z)) * cos(map->a_x) - z_val * sin(map->a_x);
+
+			// map->coords[x][y].x_pers *= scale;
+			// map->coords[x][y].y_pers *= scale;
+
+			// printf("x=%f, x_pers=%f, y=%f, y_pers=%f\n", x, x_pers, y, y_pers);
+			//img_pix_put(img, map->coords[x][y].x_pers + W_WIDTH/2, map->coords[x][y].y_pers + W_HEIGHT/2, G);
+			y++;
+		}
+		x++;
+	}
+}
+
 void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2) 
 {
-
   	int dx;
 	int dy;
 	int i;
@@ -297,21 +299,16 @@ void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2)
 		// printf("x = %d\n", x2);
 		// printf("y = %d\n", y2);
 	
-		if (line_len < 40)
-			map->color=RGB(255,255,255);
+		if (line_len < 60)
+			img_pix_put(img, x, y, map->color);
 		else
 		{
 			if (y1 > y2)
-			{
-				map->color =  gradient(RGB(200, 20, 20), RGB(30, 60, 230), line_len, i);
-				printf("x = %d\n", x);
-				printf("y = %d\n", y);
-				printf("color = %d\n\n", map->color);
-			}
+			 	map->color =  gradient(RGB(255, 0, 0),RGB(0, 0, 255),  line_len, i);
 			else
-				map->color =  gradient(RGB(30, 60, 230), RGB(200, 0, 20), line_len, i);
+				map->color =  gradient(RGB(0, 0, 255), RGB(255, 0, 0), line_len, i);
+			img_pix_put(img, x, y, map->color);	
 		}
-    	img_pix_put(img, x, y, map->color);
     i++;
 	}
 }
@@ -339,6 +336,29 @@ void draw_lines(t_img *img, t_map *map)
 			{
 				nx_next = map->coords[x + 1][y].x_pers;
 				ny_next = map->coords[x + 1][y].y_pers;
+
+				///decide colors
+				if (map->coords[x][y].z == map->coords[x + 1][y].z && map->coords[x][y].z > 0.0 && map->coords[x + 1][y].z > 0)
+				{
+					map->color = RGB(0, 0, 255);
+						// printf("Z= %f\n", map->coords[x][y].z);
+						// printf("Z_next= %f\n", map->coords[x+1][y].z);
+				}
+				else if (map->coords[x][y].z == map->coords[x + 1][y].z && map->coords[x][y].z == 0.0 && map->coords[x + 1][y].z == 0.0)
+						map->color = RGB(255, 0, 0);
+				else
+				{
+					int dx = nx_next - nx;
+					int dy = ny_next - ny;
+					double line_len = hypot(dx, dy);
+					//printf("hypot= %f\n\n", line_len);
+					if (dy < 0)
+						map->color =  gradient(RGB(255, 0, 0), RGB(0, 0, 255), line_len, 0);
+					if (dy > 0)
+						map->color =  gradient(RGB(255,0, 0), RGB(0, 0, 255), line_len, 0);
+				}
+				///////
+
 				draw_line(img, map, nx, ny, nx_next, ny_next);
 			}
 			if (y < map->n_cols - 1)
@@ -353,34 +373,3 @@ void draw_lines(t_img *img, t_map *map)
 	//	printf("nx %d ny %d \n", nx, ny);
 	}
  }
-
-int render(t_data *data)
-{
-	if (data->win_ptr == NULL)
-		return (1);
-	//render_rect(&data->img, (t_rect){W_WIDTH - 100, W_HEIGHT - 100, 100, 100, G});
-    //render_rect(&data->img, (t_rect){0, 0, 20, 20, R});
-	//render_vline(&data->img, (t_rect){W_WIDTH/2, W_HEIGHT/2, 0, 300, G});
-	
-	//TRANSLATION(t_rect){row end of line, col start of line, }
-	//render_hline(&data->img, (t_rect){600, 150, 0, 0, R});
-	//render_hline(&data->img, data->map);
-	//render_vline(&data->img, &data->map);
-	//draw_grid(&data->img, &data->map);
-	//render_vline(&data->img, &data.map->rows.n_cols);
-
-	static double last_a_z;
-	static double last_a_x;
-	if (data->img.mlx_img && (last_a_z != data->map.a_z || last_a_x != data->map.a_x))
-	{
-		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
-		data->img.mlx_img = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
-	}
-	perspectivate(&data->map,30);
-	draw_lines(&data->img, &data->map);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-
-	last_a_z = data->map.a_z;
-	last_a_x = data->map.a_x;
-	return(0);
-}

@@ -183,88 +183,139 @@ void perspectivate(t_map *map, int scale)
 		x++;
 	}
 }
+// ///// LONG B. Algorithm
+// void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2) 
+// {
+//     // Iterators, counters required by algorithm
+//     int x, y, dx, dy, dx1, dy1, px, py, xe, ye;
+//     // Calculate line deltas
+//     dx = x2 - x1;
+//     dy = y2 - y1;
+
+//     // Create a positive copy of deltas (makes iterating easier)
+//     dx1 = abs(dx); 
+//     dy1 = abs(dy);
+//     // Calculate error intervals for both axis
+//     px = 2 * dy1 - dx1;
+//     py = 2 * dx1 - dy1;
+
+// 	double line_len = hypot(dx1, dy1);
+// 	if(x1 == 0 && y1 == 0)
+// 		printf("Line Len is: %f", line_len);
+//     // The line is X-axis dominant
+//     if (dy1 <= dx1)
+// 	{
+//         if (dx >= 0)
+// 		{
+//             x = x1; y = y1; xe = x2;
+// 		}
+//         else
+// 		{// Line is drawn right to left (swap ends)
+//             x = x2; y = y2; xe = x1;
+// 		}
+//     //     Rasterize the line
+// 		while (x < xe)
+// 		{
+// 			if (px < 0)
+// 				px = px + 2 * dy1;
+// 			else
+// 			{
+// 				if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
+//                     y = y + 1;
+//                 else
+// 				{
+//         			y = y - 1;
+// 				}
+// 				px = px + 2 * (dy1 - dx1);
+// 			}
+// 				map->color =  gradient(RGB(0, 0, 255),  RGB(0, 255, 0), line_len, x);
+// 				printf("PX is %d",px);
+// 					img_pix_put(img, x, y,map->color+y);
+// 			x++;
+// 		}
+//     }
+// 	else
+// 	{ // The line is Y-axis dominant
+//         // Line is drawn bottom to top
+//         if (dy >= 0) {
+//             x = x1; y = y1; ye = y2;
+//         } 
+// 		else { // Line is drawn top to bottom
+//             x = x2; y = y2; ye = y1;
+//         }
+//         // Rasterize the line
+// 		while(y < ye)
+// 		{
+//             // Deal with octants...
+//             if (py <= 0) {
+//                 py = py + 2 * dx1;
+//             } else {
+//                 if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0)) {
+//                     x = x + 1;
+//                 } else {
+//                     x = x - 1;
+//                 }
+//                 py = py + 2 * (dx1 - dy1);
+
+//             }	
+		
+//             // Draw pixel from line span at
+//             // currently rasterized position
+// 			map->color =  gradient(RGB(0, 0, 255),  RGB(0, 255, 0), line_len, y);
+// 			img_pix_put(img, x, y, map->color);
+// 		    y++;
+//         }
+//     }
+//  }
+// //////////
 
 void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2) 
 {
-    // Iterators, counters required by algorithm
-    int x, y, dx, dy, dx1, dy1, px, py, xe, ye;
-    // Calculate line deltas
-    dx = x2 - x1;
-    dy = y2 - y1;
 
-    // Create a positive copy of deltas (makes iterating easier)
-    dx1 = abs(dx); 
-    dy1 = abs(dy);
-    // Calculate error intervals for both axis
-    px = 2 * dy1 - dx1;
-    py = 2 * dx1 - dy1;
+  	int dx;
+	int dy;
+	int i;
+	int x;
+	int y;
 
+	dx = x2 - x1;
+	dy = y2 - y1;
+	// dx = abs(dx);
+	// dy = abs(dy);
+	i = 0;
 	double line_len = hypot(dx, dy);
-	if(x1 == 0 && y1 == 0)
-		printf("Line Len is: %f", line_len);
-    // The line is X-axis dominant
-    if (dy1 <= dx1)
+	while (i  < line_len)
 	{
-        if (dx >= 0)
+		x = x1 + i * dx / line_len;
+		y = y1 + i * dy / line_len;
+		// printf("i = %d\n", i);
+		// printf("Line len = %f\n", line_len);
+		// printf("dx = %d\n", dx);
+		// printf("dy = %d\n", dy);
+		// printf("x = %d\n", x);
+		// printf("y = %d\n", y);
+		// printf("x = %d\n", x2);
+		// printf("y = %d\n", y2);
+	
+		if (line_len < 40)
+			map->color=RGB(255,255,255);
+		else
 		{
-            x = x1; y = y1; xe = x2;
-		}
-        else
-		{// Line is drawn right to left (swap ends)
-            x = x2; y = y2; xe = x1;
-		}
-    //     Rasterize the line
-		while (x < xe)
-		{
-			if (px < 0)
-				px = px + 2 * dy1;
-			else
+			if (y1 > y2)
 			{
-				if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0))
-                    y = y + 1;
-                else
-				{
-        			y = y - 1;
-				}
-				px = px + 2 * (dy1 - dx1);
+				map->color =  gradient(RGB(200, 20, 20), RGB(30, 60, 230), line_len, i);
+				printf("x = %d\n", x);
+				printf("y = %d\n", y);
+				printf("color = %d\n\n", map->color);
 			}
-				map->color =  gradient(RGB(0, 0, 255),  RGB(0, 255, 0), line_len, x);
-				printf("PX is %d",px);
-					img_pix_put(img, x, y,map->color+y);
-			x++;
+			else
+				map->color =  gradient(RGB(30, 60, 230), RGB(200, 0, 20), line_len, i);
 		}
-    }
-	else
-	{ // The line is Y-axis dominant
-        // Line is drawn bottom to top
-        if (dy >= 0) {
-            x = x1; y = y1; ye = y2;
-        } 
-		else { // Line is drawn top to bottom
-            x = x2; y = y2; ye = y1;
-        }
-        // Rasterize the line
-		while(y < ye)
-		{
-            // Deal with octants...
-            if (py <= 0) {
-                py = py + 2 * dx1;
-            } else {
-                if ((dx < 0 && dy < 0) || (dx > 0 && dy > 0)) {
-                    x = x + 1;
-                } else {
-                    x = x - 1;
-                }
-                py = py + 2 * (dx1 - dy1);
-            }
-            // Draw pixel from line span at
-            // currently rasterized position
-			map->color =  gradient(RGB(0, 0, 255),  RGB(0, 255, 0), line_len, y);
-			img_pix_put(img, x, y, map->color);
-		    y++;
-        }
-    }
- }
+    	img_pix_put(img, x, y, map->color);
+    i++;
+	}
+}
+
 
 void draw_lines(t_img *img, t_map *map)
 {
@@ -325,7 +376,7 @@ int render(t_data *data)
 		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
 		data->img.mlx_img = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
 	}
-	perspectivate(&data->map,20);
+	perspectivate(&data->map,30);
 	draw_lines(&data->img, &data->map);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 

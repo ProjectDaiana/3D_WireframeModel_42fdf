@@ -18,7 +18,7 @@
 # define R(a) (a) >> 16
 # define G(a) ((a) >> 8) & 0xFF
 # define B(a) (a) & 0xFF
-# define RGB(a, b, c) ((a) << 16) + ((b) << 8) + (c) 
+# define RGB(a, b, c) (((a) << 16) | ((b) << 8) | (c))
 
 # include <stdlib.h>
 # include <math.h>

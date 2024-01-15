@@ -218,12 +218,13 @@
 //  }
 // //////////
 
-void	img_pix_put(t_img *img, int x, int y, int color)
+void	img_pix_put(t_img *img, int x, int y, int color, t_map *map)
 {
     char    *pixel;
-	img->mid = 2;
-	x = x + W_WIDTH/img->mid;
-	y= y + W_HEIGHT/img->mid;
+	(void) *map;
+
+	x = x + W_WIDTH/2;
+	y= y + W_HEIGHT/2;
 	if (x >= 0 && x <= W_WIDTH && y >= 0 && y <= W_HEIGHT)
 	{
     	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
@@ -231,7 +232,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 	}
 }
 
-void perspectivate(t_map *map)
+void convert_to_iso(t_map *map)
 {
 	int z_val;
 	int x;
@@ -240,32 +241,18 @@ void perspectivate(t_map *map)
 	double y_offset;
 
 	x = 0;
-	//map->center = 2;
+
 	while(x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
 			z_val = (map->coords[x][y].z)*map->scale;
-
-			/// OFFFSET
-			x_offset = (x - map->n_rows / map->center)*map->scale;
-            y_offset = (y - map->n_cols / map->center)*map->scale;
-			// printf("OFFSET IS: %f\n", x_offset);
-			// Passing arrow keys to rotate
-			map->coords[x][y].x_pers = (-x_offset *cos(map->a_z) - y_offset *sin(map->a_z));
+			x_offset = ((x - map->n_rows / 2) *map->scale);
+            y_offset = ((y - map->n_cols / 2) *map->scale);
+			map->coords[x][y].x_pers = (-x_offset *cos(map->a_z) - y_offset *sin(map->a_z)) + map->x_move_pos;
 			map->coords[x][y].y_pers = -x_offset *sin(map->a_z) + y_offset *cos(map->a_z);
-			map->coords[x][y].y_pers = (map->coords[x][y].y_pers * cos(map->a_x) - z_val * sin(map->a_x));
-
-			////// NO OFFSET
-			// map->coords[x][y].x_pers = x * cos(map->a_z) - y * sin(map->a_z);
-			// map->coords[x][y].y_pers = (x * sin(map->a_z) + (y)*cos(map->a_z)) * cos(map->a_x) - z_val * sin(map->a_x);
-
-			// map->coords[x][y].x_pers *= scale;
-			// map->coords[x][y].y_pers *= scale;
-
-			// printf("x=%f, x_pers=%f, y=%f, y_pers=%f\n", x, x_pers, y, y_pers);
-			//img_pix_put(img, map->coords[x][y].x_pers + W_WIDTH/2, map->coords[x][y].y_pers + W_HEIGHT/2, G);
+			map->coords[x][y].y_pers = (map->coords[x][y].y_pers * cos(map->a_x) - z_val * sin(map->a_x)) + map->y_move_pos;;
 			y++;
 		}
 		x++;
@@ -282,8 +269,6 @@ void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2)
 
 	dx = x2 - x1;
 	dy = y2 - y1;
-	// dx = abs(dx);
-	// dy = abs(dy);
 	i = 0;
 	double line_len = hypot(dx, dy);
 	while (i  < line_len)
@@ -300,14 +285,14 @@ void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2)
 		// printf("y = %d\n", y2);
 	
 		if (line_len < 60)
-			img_pix_put(img, x, y, map->color);
+			img_pix_put(img, x, y, map->color, map);
 		else
 		{
 			if (y1 > y2)
 			 	map->color =  gradient(RGB(255, 0, 0),RGB(0, 0, 255),  line_len, i);
 			else
 				map->color =  gradient(RGB(0, 0, 255), RGB(255, 0, 0), line_len, i);
-			img_pix_put(img, x, y, map->color);	
+			img_pix_put(img, x, y, map->color, map);	
 		}
     i++;
 	}

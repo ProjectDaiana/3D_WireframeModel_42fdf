@@ -51,8 +51,8 @@ int handle_leftclick(int button, int x, int y, t_data *data)
 	if(button == 1)
 	{
 		data->map.click = !data->map.click;
-		data->map.x_first_pos = x;
-		data->map.y_first_pos = y;
+		data->map.x_mouse_pos = x;
+		data->map.y_mouse_pos = y;
 	}
 	return (0);
 }
@@ -65,16 +65,16 @@ int	follow_mouse(t_data *data)
 	if (!data->map.click)
 		return(0);
 	mlx_mouse_get_pos(data->mlx_ptr, data->win_ptr, &x_mouse, &y_mouse);
-	if (data->map.x_first_pos > x_mouse)
-		data->map.x_move_pos -= data->map.x_first_pos - x_mouse;
-	else if (data->map.x_first_pos < x_mouse)
-		data->map.x_move_pos +=  x_mouse - data->map.x_first_pos;
-	if (data->map.y_first_pos > y_mouse)
-		data->map.y_move_pos -= data->map.y_first_pos - y_mouse;
-	else if (data->map.y_first_pos < y_mouse)
-		data->map.y_move_pos += y_mouse - data->map.y_first_pos;
-	data->map.x_first_pos = x_mouse;
-	data->map.y_first_pos = y_mouse;
+	if (data->map.x_mouse_pos > x_mouse)
+		data->map.x_mouse_mov -= data->map.x_mouse_pos - x_mouse;
+	else if (data->map.x_mouse_pos < x_mouse)
+		data->map.x_mouse_mov +=  x_mouse - data->map.x_mouse_pos;
+	if (data->map.y_mouse_pos > y_mouse)
+		data->map.y_mouse_mov -= data->map.y_mouse_pos - y_mouse;
+	else if (data->map.y_mouse_pos < y_mouse)
+		data->map.y_mouse_mov += y_mouse - data->map.y_mouse_pos;
+	data->map.x_mouse_pos = x_mouse;
+	data->map.y_mouse_pos = y_mouse;
 	return(0);
 }
 

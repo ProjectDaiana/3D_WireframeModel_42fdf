@@ -27,12 +27,15 @@
 # include "lib/libft/libft.h"
 # include "lib/minilibx-linux/mlx.h"
 # include <stdbool.h>
+# include <stdio.h>
+
 
 typedef struct s_coords
 {
 	int x_pers;
 	int y_pers;
 	double z;
+	int	color;
 } t_coords;
 
 typedef struct s_map
@@ -41,24 +44,15 @@ typedef struct s_map
 	int		n_rows;
 	double	a_x;
 	double	a_z;
-	int		color;
 	int		scale;
 	bool	click;
-	int		x_first_pos;
-	int		y_first_pos;
-	int		x_move_pos;
-	int		y_move_pos;
+	int		color;
+	int		x_mouse_pos;
+	int		y_mouse_pos;
+	int		x_mouse_mov;
+	int		y_mouse_mov;
 	t_coords **coords;
 }	t_map;
-
-typedef struct s_rect
-{
-    int	x;
-    int	y;
-    int width;
-    int height;
-    int color;
-}	t_rect;
 
 typedef struct s_img
 {
@@ -85,12 +79,17 @@ int handle_leftclick(int click, int x, int y, t_data *data);
 int	follow_mouse(t_data *data);
 int close_window(t_data *data);
 
-
 void	*mlx_new_image(void *mlx_ptr,int width,int height);
 void	img_pix_put(t_img *img, int x, int y, int color, t_map *map);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
 int		render(t_data *data);
 void line_to_coords(char *str, t_data *data, int row);
+
+int max_z(t_map *map);
+int min_z(t_map *map);
+
+void asign_colors(t_map *map);
+int	gradient(int startcolor, int endcolor, int len, int i);
 void draw_lines(t_img *img, t_map *map);
 void convert_to_iso(t_map *map);
 

@@ -46,11 +46,12 @@ typedef struct s_map
 	double	a_z;
 	int		scale;
 	bool	click;
-	int		color;
 	int		x_mouse_pos;
 	int		y_mouse_pos;
 	int		x_mouse_mov;
 	int		y_mouse_mov;
+	int		min_z;
+	int		max_z;
 	t_coords **coords;
 }	t_map;
 
@@ -82,6 +83,9 @@ int close_window(t_data *data);
 void	*mlx_new_image(void *mlx_ptr,int width,int height);
 void	img_pix_put(t_img *img, int x, int y, int color, t_map *map);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
+
+char *file_path(char *argv);
+
 int		render(t_data *data);
 void line_to_coords(char *str, t_data *data, int row);
 
@@ -89,19 +93,16 @@ int max_z(t_map *map);
 int min_z(t_map *map);
 
 void asign_colors(t_map *map);
-int	gradient(int startcolor, int endcolor, int len, int i);
+int	gradient(int startcolor, int endcolor, int line_len, int i);
 void draw_lines(t_img *img, t_map *map);
 void convert_to_iso(t_map *map);
 
-void import_map(char *str, t_data *data);
+void import_map(char argv[1], t_data *data);
 char	*get_next_line(int fd);
 
 void free_stuff(t_map *map);
 void free_arr2D(char **arr2D);
 void free_gnl(int fd, t_data *data);
-
-
-int	gradient(int startcolor, int endcolor, int len, int pix);
 
 
 #endif

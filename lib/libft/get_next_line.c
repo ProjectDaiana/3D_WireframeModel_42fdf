@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 16:32:57 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/21 20:07:55 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/26 19:06:06 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,50 +115,3 @@ char	*ft_newstash(char *stash)
 	free (stash);
 	return (newstash);
 }
-
-// #include <stdio.h>
-// #include <fcntl.h>
-// #include <unistd.h>
-
-// int	main(void)
-// {
-// 	char	*line;
-// 	int		fd;
-// 	fd = open("./text.txt", O_RDONLY);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	line = get_next_line(fd);
-// 	printf("%s", line);
-// 	free(line);
-// 	close(fd);
-// 	return (0);
-// }
-
-///MAIN DAI
-// int main()
-// {
-// 	int fd;
-// 	int i = 0;
-// 	fd = open("text.txt", O_RDONLY);
-
-// 	while (i < 8)
-// 	{
-// 		get_next_line(fd);
-// 		printf("\033[0;32m|||||||||||| %d LOOOOOP|||||||\n\033[0m",i);	
-// 		i++;
-// 	}
-// 	return 0;
-// }

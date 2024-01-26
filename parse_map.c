@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/21 20:14:49 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:51:16 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	line_to_coords(char *str, t_data *data, int row)
 	while (c[col] != NULL && c[col][0] != '\n')
 		col++;
 	data->map.n_cols = col;
-	data->map.coords[row] = malloc((sizeof(t_coords) * col));
+	data->map.c[row] = malloc((sizeof(t_coords) * col));
 	col = 0;
 	while (c[col] != NULL && c[col][0] != '\n')
 	{
-		data->map.coords[row][col].z = ft_atoi(c[col]);
+		data->map.c[row][col].z = ft_atoi(c[col]);
 		col++;
 	}
 	free_arr2D(c);
@@ -40,13 +40,13 @@ int	count_rows(int fd)
 
 	rows = 0;
 	tmp = get_next_line(fd);
-	if (get_next_line(fd) == NULL)
-		free (tmp);
+	if (tmp == NULL)
+		return(0);
 	while (tmp)
-	{
-		tmp = get_next_line(fd);
+	{	
+		rows++;
 		free(tmp);
-	 	rows++;
+		tmp = get_next_line(fd);
 	}
 	return (rows);
 }
@@ -69,13 +69,13 @@ void	import_map(char *file, t_data * data)
 	if(fd ==-1)
 	{
 		printf(RED"Error opening file.\n"RESET);
-		free (file);
+		exit(0);
 	}
 	data->map.a_x = 30.0/180 *PI;
 	data->map.a_z = 30.0/180 *PI;
 	data->map.scale = 30;
 	data->map.n_rows = count_rows(fd);
-	data->map.coords = malloc ((sizeof(t_coords *)* data->map.n_rows));
+	data->map.c = malloc ((sizeof(t_coords *)* data->map.n_rows));
 	close(fd);
 	fd = open(file, O_RDONLY);
 	char **lines = malloc(sizeof(char *) * data->map.n_rows);

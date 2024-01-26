@@ -32,8 +32,8 @@
 
 typedef struct s_coords
 {
-	int x_pers;
-	int y_pers;
+	int x_t;
+	int y_t;
 	double z;
 	int	color;
 } t_coords;
@@ -52,7 +52,7 @@ typedef struct s_map
 	int		y_mouse_mov;
 	int		min_z;
 	int		max_z;
-	t_coords **coords;
+	t_coords **c;
 }	t_map;
 
 typedef struct s_img
@@ -72,37 +72,36 @@ typedef struct s_data
 	t_img	img;
 }	t_data;
 
-int	handle_no_event(void *data);
-int	handle_input(int keysym, t_data *data);
-int	handle_keypress(int keysym, t_data *data);
-int	handle_keyrelease(int keysym, void *data);
-int handle_leftclick(int click, int x, int y, t_data *data);
-int	follow_mouse(t_data *data);
-int close_window(t_data *data);
+int		handle_no_event(void *data);
+int		handle_input(int keysym, t_data *data);
+int		handle_keypress(int keysym, t_data *data);
+int		handle_keyrelease(int keysym, void *data);
+int		handle_leftclick(int click, int x, int y, t_data *data);
+int		follow_mouse(t_data *data);
+int		close_window(t_data *data);
 
 void	*mlx_new_image(void *mlx_ptr,int width,int height);
-void	img_pix_put(t_img *img, int x, int y, int color, t_map *map);
+void	img_pix_put(t_img *img, int x, int y, int color);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
 
-char *file_path(char *argv);
-
-int		render(t_data *data);
-void line_to_coords(char *str, t_data *data, int row);
-
-int max_z(t_map *map);
-int min_z(t_map *map);
-
-void asign_colors(t_map *map);
-int	gradient(int startcolor, int endcolor, int line_len, int i);
-void draw_lines(t_img *img, t_map *map);
-void convert_to_iso(t_map *map);
-
-void import_map(char argv[1], t_data *data);
+char	*file_path(char *argv);
+void	import_map(char argv[1], t_data *data);
 char	*get_next_line(int fd);
 
-void free_stuff(t_map *map);
-void free_arr2D(char **arr2D);
-void free_gnl(int fd, t_data *data);
+int		render(t_data *data);
+void	line_to_coords(char *str, t_data *data, int row);
+void	draw_lines(t_img *img, t_map *map);
+void	convert_to_iso(t_map *map);
 
+int		max_z(t_map *map);
+int		min_z(t_map *map);
+void	asign_colors(t_map *map);
+int		gradient(int s_color, int e_color, int line_len, int i);
+
+
+
+void	free_stuff(t_data *data);
+void	free_arr2D(char **arr2D);
+int		free_gnl_buff(int fd, char *lines);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/21 20:17:32 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:30:46 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@
 
 /////////// IMPORT /////////////////////////////////////
 
-int max_z(t_map *map)
+int	max_z(t_map *map)
 {
 	int x;
 	int y;
 
 	x = 0;
 	y = 0;
-	map->max_z = map->coords[x][y].z;
+	map->max_z = map->c[x][y].z;
 	while (x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
-			if (map->max_z < map->coords[x][y].z)
-				map->max_z = map->coords[x][y].z;
+			if (map->max_z < map->c[x][y].z)
+				map->max_z = map->c[x][y].z;
 			y++;
 		}
 		x++;
@@ -44,21 +44,21 @@ int max_z(t_map *map)
 	return (map->max_z);
 }
 
-int min_z(t_map *map)
+int	min_z(t_map *map)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
-	map->min_z = map->coords[x][y].z;
+	map->min_z = map->c[x][y].z;
 	while (x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
-			if (map->min_z > map->coords[x][y].z)
-				map->min_z = map->coords[x][y].z;
+			if (map->min_z > map->c[x][y].z)
+				map->min_z = map->c[x][y].z;
 			y++;
 		}
 		x++;
@@ -66,56 +66,55 @@ int min_z(t_map *map)
 	return (map->min_z);
 }
 
-int	gradient(int startcolor, int endcolor, int len, int i)
+int	gradient(int s_color, int e_color, int range, int i)
 {
-	double increment[3];
-	int new[3];
-	int newcolor;
-	(void) len;
+	double	increment[3];
+	int		new[3];
+	int		newcolor;
 
-	increment[0] = (double)((R(endcolor)) - (R(startcolor))) / (double)len;
-    increment[1] = (double)((G(endcolor)) - (G(startcolor))) / (double)len;
-    increment[2] = (double)((B(endcolor)) - (B(startcolor))) / (double)len;
-
-    new[0] = (R(startcolor)) + round(i * increment[0]);
-    new[1] = (G(startcolor)) + round(i * increment[1]);
-    new[2] = (B(startcolor)) + round(i * increment[2]);
-
-	// double t = (double)(y - y_start) / (double)(y_end - y_start);
-    // new[0] = (int)(new[0] * (1.0 - t) + (R(endcolor)) * t);
-    // new[1] = (int)(new[1] * (1.0 - t) + (G(endcolor)) * t);
-    // new[2] = (int)(new[2] * (1.0 - t) + (B(endcolor)) * t);
+	increment[0] = (double)((R(e_color)) - (R(s_color))) / (double)range;
+    increment[1] = (double)((G(e_color)) - (G(s_color))) / (double)range;
+	increment[2] = (double)((B(e_color)) - (B(s_color))) / (double)range;
+    new[0] = (R(s_color)) + round(i * increment[0]);
+    new[1] = (G(s_color)) + round(i * increment[1]);
+    new[2] = (B(s_color)) + round(i * increment[2]);
     newcolor = RGB(new[0], new[1], new[2]);
-
-    return (newcolor);
+	return (newcolor);
 }
 
 void asign_colors(t_map *map)
 {
-	int x;
-	int y;
-	int startcolor = RGB(220, 220, 180);
-	//int midcolor = RGB(80, 120, 230);
-	int endcolor = RGB(50, 0, 180);
+	int	x;
+	int	y;
+	int	s_color;
+	int	e_color;
+	int	color_range;
 
-	// int startcolor = RGB(255, 0, 0);
-	// //int midcolor = RGB(80, 120, 230);
-	// int endcolor = RGB(0, 0, 255);
-
-	// int grad_len = (abs(map->max_z)+abs(map->min_z))*map->scale;
+	s_color = RGB(50, 0, 210);
+	e_color = RGB(100, 120, 180);
+	// s_color = RGB(0, 25, 25);
+	// e_color = RGB(250, 250, 250);
+	color_range = abs(max_z(map)) + abs(min_z(map)) - 2;
 	x = 0;
 	while (x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
-			if (map->coords[x][y].z == max_z(map))
-				map->coords[x][y].color = startcolor;
-			else if (map->coords[x][y].z == min_z(map))
-				map->coords[x][y].color = endcolor;
+			printf("max_z %d\n", max_z(map));
+			printf("min_z %d\n", min_z(map));
+			printf("color_range = %d\n",color_range);
+			if (map->c[x][y].z == max_z(map))
+				map->c[x][y].color = e_color;
+			else if (map->c[x][y].z == min_z(map))
+				map->c[x][y].color =s_color;
 			else
-				map->coords[x][y].color = gradient(startcolor, endcolor, map->n_cols, y);
-				//map->coords[x][y].color =midcolor;
+			{
+				if (map->c[x][y].z < 0)
+					map->c[x][y].z = fabs(map->c[x][y].z);
+				printf("map->c[x][y].z =  %f\n", map->c[x][y].z);
+				map->c[x][y].color = gradient(s_color, e_color, color_range, map->c[x][y].z);
+			}
 			y++;
 		}
 		x++;

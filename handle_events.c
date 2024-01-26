@@ -6,35 +6,41 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:47 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/21 20:10:48 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/26 17:38:47 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-int handle_no_event(void *data)
+// int handle_no_event(void *data)
+// {
+// 	(void)*data;
+// 	return (0);
+// }
+
+// int	handle_keyrelease(int keysym, void *data)
+// {
+// 	(void)*data;
+// 	printf("Keyrelease: %d\n", keysym);
+// 	return (0);
+// }
+
+int	close_window(t_data *data)
 {
-	(void)*data;
-	return (0);
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	exit (0);
 }
 
-int close_window(t_data *data)
-{
-    mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-    // Additional cleanup or exit code if necessary
-    exit(0);
-}
-int handle_input(int keysym, t_data *data)
+int	handle_input(int keysym, t_data *data)
 {
 	if (keysym == XK_Escape)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	return (0);
 }
 
-int handle_keypress(int keysym, t_data *data)
+int	handle_keypress(int keysym, t_data *data)
 {
-	//(void)*data;
 	if (keysym == XK_Escape)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
@@ -58,9 +64,9 @@ int handle_keypress(int keysym, t_data *data)
 	return (0);
 }
 
-int handle_leftclick(int button, int x, int y, t_data *data)
+int	handle_leftclick(int button, int x, int y, t_data *data)
 {
-	if(button == 1)
+	if (button == 1)
 	{
 		data->map.click = !data->map.click;
 		data->map.x_mouse_pos = x;
@@ -71,28 +77,21 @@ int handle_leftclick(int button, int x, int y, t_data *data)
 
 int	follow_mouse(t_data *data)
 {
-	static int x_mouse;
-	static int y_mouse;
-	
+	static int	x_mouse;
+	static int	y_mouse;
+
 	if (!data->map.click)
-		return(0);
+		return (0);
 	mlx_mouse_get_pos(data->mlx_ptr, data->win_ptr, &x_mouse, &y_mouse);
 	if (data->map.x_mouse_pos > x_mouse)
 		data->map.x_mouse_mov -= data->map.x_mouse_pos - x_mouse;
 	else if (data->map.x_mouse_pos < x_mouse)
-		data->map.x_mouse_mov +=  x_mouse - data->map.x_mouse_pos;
+		data->map.x_mouse_mov += x_mouse - data->map.x_mouse_pos;
 	if (data->map.y_mouse_pos > y_mouse)
 		data->map.y_mouse_mov -= data->map.y_mouse_pos - y_mouse;
 	else if (data->map.y_mouse_pos < y_mouse)
 		data->map.y_mouse_mov += y_mouse - data->map.y_mouse_pos;
 	data->map.x_mouse_pos = x_mouse;
 	data->map.y_mouse_pos = y_mouse;
-	return(0);
-}
-
-int handle_keyrelease(int keysym, void *data)
-{
-	(void)*data;
-	printf("Keyrelease: %d\n", keysym);
 	return (0);
 }

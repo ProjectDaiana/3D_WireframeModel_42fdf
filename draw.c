@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:09 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/21 20:23:10 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/26 18:28:10 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,9 @@
 //  }
 // //////////
 
-void img_pix_put(t_img *img, int x, int y, int color, t_map *map)
+void	img_pix_put(t_img *img, int x, int y, int color)
 {
-	char *pixel;
-	(void)*map;
+	char	*pixel;
 
 	x = x + W_WIDTH / 2;
 	y = y + W_HEIGHT / 2;
@@ -112,41 +111,40 @@ void img_pix_put(t_img *img, int x, int y, int color, t_map *map)
 	}
 }
 
-void convert_to_iso(t_map *map)
+void	convert_to_iso(t_map *map)
 {
-	int z_val;
-	int x;
-	int y;
-	double x_offset;
-	double y_offset;
+	int		z_val;
+	int		x;
+	int		y;
+	double	x_offs;
+	double	y_offs;
 
 	x = 0;
-
 	while (x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
-			z_val = (map->coords[x][y].z) * map->scale;
-			x_offset = ((x - map->n_rows / 2) * map->scale);
-			y_offset = ((y - map->n_cols / 2) * map->scale);
-			map->coords[x][y].x_pers = (-x_offset * cos(map->a_z) - y_offset * sin(map->a_z)) + map->x_mouse_mov;
-			map->coords[x][y].y_pers = -x_offset * sin(map->a_z) + y_offset * cos(map->a_z);
-			map->coords[x][y].y_pers = (map->coords[x][y].y_pers * cos(map->a_x) - z_val * sin(map->a_x)) + map->y_mouse_mov;
+			z_val = (map->c[x][y].z) * map->scale;
+			x_offs = ((x - map->n_rows / 2) * map->scale);
+			y_offs = ((y - map->n_cols / 2) * map->scale);
+			map->c[x][y].x_t = (-x_offs * cos(map->a_z) - y_offs * sin(map->a_z)) + map->x_mouse_mov;
+			map->c[x][y].y_t = -x_offs * sin(map->a_z) + y_offs * cos(map->a_z);
+			map->c[x][y].y_t = (map->c[x][y].y_t * cos(map->a_x) - z_val * sin(map->a_x)) + map->y_mouse_mov;
 			y++;
 		}
 		x++;
 	}
 }
 
-void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2, int color, int n_color)
+void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_color)
 {
-	int dx;
-	int dy;
-	int i;
-	int x;
-	int y;
-	int colour;
+	int	dx;
+	int	dy;
+	int	i;
+	int	x;
+	int	y;
+	int	colour;
 
 	dx = x2 - x1;
 	dy = y2 - y1;
@@ -157,12 +155,12 @@ void draw_line(t_img *img, t_map *map, int x1, int y1, int x2, int y2, int color
 		colour = gradient(color, n_color, line_len, i);
 		x = x1 + i * dx / line_len;
 		y = y1 + i * dy / line_len;
-		img_pix_put(img, x, y, colour, map);
+		img_pix_put(img, x, y, colour);
 		i++;
 	}
 }
 
-void draw_lines(t_img *img, t_map *map)
+void	draw_lines(t_img *img, t_map *map)
 {
 	int x;
 	int y;
@@ -180,22 +178,22 @@ void draw_lines(t_img *img, t_map *map)
 		y = 0;
 		while (y < map->n_cols)
 		{
-			nx = map->coords[x][y].x_pers;
-			ny = map->coords[x][y].y_pers;
-			color = map->coords[x][y].color;
+			nx = map->c[x][y].x_t;
+			ny = map->c[x][y].y_t;
+			color = map->c[x][y].color;
 			if (x < map->n_rows - 1)
 			{
-				nx_next = map->coords[x + 1][y].x_pers;
-				ny_next = map->coords[x + 1][y].y_pers;
-				n_color = map->coords[x + 1][y].color;
-				draw_line(img, map, nx, ny, nx_next, ny_next, color, n_color);
+				nx_next = map->c[x + 1][y].x_t;
+				ny_next = map->c[x + 1][y].y_t;
+				n_color = map->c[x + 1][y].color;
+				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
 			}
 			if (y < map->n_cols - 1)
 			{
-				nx_next = map->coords[x][y + 1].x_pers;
-				ny_next = map->coords[x][y + 1].y_pers;
-				n_color = map->coords[x][y + 1].color;
-				draw_line(img, map, nx, ny, nx_next, ny_next, color, n_color);
+				nx_next = map->c[x][y + 1].x_t;
+				ny_next = map->c[x][y + 1].y_t;
+				n_color = map->c[x][y + 1].color;
+				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
 			}
 			y++;
 		}

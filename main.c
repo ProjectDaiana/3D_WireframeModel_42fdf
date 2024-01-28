@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:33 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 19:11:24 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:41:30 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,17 @@ int	main(int argc, char **argv)
 {
 	static t_data	data;
 
+	if (argc != 2)
+	{
+		printf(RED"Wrong arguments. Insert ./fdf and map name.\n"WHT);
+		exit(1);
+	}
 	data.mlx_ptr = mlx_init();
 	if (data.mlx_ptr == NULL)
 		return (MLX_ERROR);
-	if (argc != 2)
-	{
-		printf(RED"Wrong arguments. Insert ./fdf and map name"WHT);
-		exit(1);
-	}
 	data.win_ptr = mlx_new_window(data.mlx_ptr, W_WIDTH, W_HEIGHT, "fdf");
 	if (data.win_ptr == NULL)
 		return (MLX_ERROR);
-		//free(data.win_ptr);
 	import_map(file_path(argv[1]), &data);
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, W_WIDTH, W_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
@@ -64,7 +63,5 @@ int	main(int argc, char **argv)
 	mlx_mouse_hook(data.win_ptr, handle_leftclick, &data);
 	mlx_hook(data.win_ptr, 17, 1L << 17, close_window, &data);
 	mlx_loop(data.mlx_ptr);
-	mlx_destroy_image(data.mlx_ptr, data.img.mlx_img);
-	mlx_destroy_display(data.mlx_ptr);
-	free_stuff(&data);
+	destroy_win_and_img(&data);
 }

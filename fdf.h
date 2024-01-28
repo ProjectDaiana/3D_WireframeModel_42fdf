@@ -89,7 +89,7 @@ void	import_map(char argv[1], t_data *data);
 char	*get_next_line(int fd);
 
 int		render(t_data *data);
-void	line_to_coords(char *str, t_data *data, int row);
+int		line_to_coords(char *str, t_data *data, int row);
 void	draw_lines(t_img *img, t_map *map);
 void	convert_to_iso(t_map *map);
 

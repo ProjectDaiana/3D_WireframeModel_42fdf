@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:54 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 19:06:59 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 20:15:19 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void free_stuff(t_data *data)
 		i++;
 	}
 	free(data->map.c);
-	free(data->mlx_ptr);
 }
 
 void free_arr2D(char **arr2D)
@@ -36,18 +35,6 @@ void free_arr2D(char **arr2D)
 	free(arr2D);
 }
 
-int	free_gnl_buff(int fd, char *line)
-{
-	line = get_next_line(fd);
-	while (line)
-	{
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	return (0);
-}
-
 int destroy_win_and_img(t_data *data) 
 {
     if (data->img.mlx_img != NULL) {
@@ -57,12 +44,11 @@ int destroy_win_and_img(t_data *data)
     if (data->win_ptr != NULL) {
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
         data->win_ptr = NULL;
-        free(data->win_ptr);
     }
     if (data->mlx_ptr != NULL) {
         mlx_destroy_display(data->mlx_ptr);
         data->mlx_ptr = NULL;
-        free(data->mlx_ptr);
     }
+	free_stuff(data);
     exit(0);
 }

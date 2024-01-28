@@ -6,30 +6,16 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:47 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 19:08:48 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 20:09:02 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-// int handle_no_event(void *data)
-// {
-// 	(void)*data;
-// 	return (0);
-// }
-
-// int	handle_keyrelease(int keysym, void *data)
-// {
-// 	(void)*data;
-// 	printf("Keyrelease: %d\n", keysym);
-// 	return (0);
-// }
-
 int	close_window(t_data *data)
 {
 	destroy_win_and_img(data);
-	free_stuff(data);
 	exit (0);
 }
 
@@ -55,10 +41,12 @@ int	handle_keypress(int keysym, t_data *data)
 	if (keysym == XK_Down)
 		data->map.a_x -= 0.1;
 	if (keysym == XK_KP_Add)
-		data->map.scale += 10;
+		data->map.scale += 1;
 	if (keysym == XK_KP_Subtract)
-		data->map.scale -= 10;
-	// printf("Keypress: %d\n", keysym);
+	{
+		if (data->map.scale > 10)
+			data->map.scale -= 0.5;
+	}
 	return (0);
 }
 

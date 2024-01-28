@@ -6,14 +6,14 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 19:12:35 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:46:01 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-void	line_to_coords(char *str, t_data *data, int row)
+int	line_to_coords(char *str, t_data *data, int row)
 {
 	char	**c;
 	int		col;
@@ -31,6 +31,7 @@ void	line_to_coords(char *str, t_data *data, int row)
 		col++;
 	}
 	free_arr2D(c);
+	return(0);
 }
 
 int	count_rows(int fd)
@@ -67,7 +68,7 @@ void	import_map(char *file, t_data * data)
 	if(fd ==-1)
 	{
 		printf(RED"Error opening file.\n"RESET);
-		exit(0);
+		destroy_win_and_img(data);
 	}
 	data->map.a_x = 30.0/180 *PI;
 	data->map.a_z = 30.0/180 *PI;
@@ -85,7 +86,8 @@ void	import_map(char *file, t_data * data)
 	i = 0;
 	while(i < data->map.n_rows)
 	{
-		line_to_coords(lines[i], data, i);
+		if(line_to_coords(lines[i], data, i) != 0)
+			destroy_win_and_img(data);
 		i++;
 	}
 	i = 0;

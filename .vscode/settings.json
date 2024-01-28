@@ -9,6 +9,7 @@
 		"math.h": "c",
 		"cmath": "c",
 		"stdio.h": "c",
-		"xkblib.h": "c"
+		"xkblib.h": "c",
+		"stdarg.h": "c"
 	}
 }

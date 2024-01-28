@@ -6,26 +6,16 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 18:32:40 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 23:02:34 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-///// COLOR
-//#include <inttypes.h>
-
-// int encode_rgb(uint8_t red, uint8_t green, uint8_t blue)
-// {
-// 	return (red << 16 | green << 8 | blue);
-// }
-
-/////////// IMPORT /////////////////////////////////////
-
 int	max_z(t_map *map)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	x = 0;
 	y = 0;
@@ -73,16 +63,16 @@ int	gradient(int s_color, int e_color, int range, int i)
 	int		newcolor;
 
 	increment[0] = (double)((R(e_color)) - (R(s_color))) / (double)range;
-    increment[1] = (double)((G(e_color)) - (G(s_color))) / (double)range;
+	increment[1] = (double)((G(e_color)) - (G(s_color))) / (double)range;
 	increment[2] = (double)((B(e_color)) - (B(s_color))) / (double)range;
-    new[0] = (R(s_color)) + round(i * increment[0]);
-    new[1] = (G(s_color)) + round(i * increment[1]);
-    new[2] = (B(s_color)) + round(i * increment[2]);
-    newcolor = RGB(new[0], new[1], new[2]);
+	new[0] = (R(s_color)) + round(i * increment[0]);
+	new[1] = (G(s_color)) + round(i * increment[1]);
+	new[2] = (B(s_color)) + round(i * increment[2]);
+	newcolor = RGB(new[0], new[1], new[2]);
 	return (newcolor);
 }
 
-void asign_colors(t_map *map)
+void	asign_colors(t_map *map)
 {
 	int	x;
 	int	y;
@@ -90,10 +80,8 @@ void asign_colors(t_map *map)
 	int	e_color;
 	int	color_range;
 
-	s_color = RGB(50, 0, 210);
-	e_color = RGB(100, 120, 180);
-	// s_color = RGB(0, 25, 25);
-	// e_color = RGB(250, 250, 250);
+	s_color = RGB(50, 0, 110);
+	e_color = RGB(180, 120, 180);
 	color_range = abs(max_z(map)) + abs(min_z(map)) - 2;
 	x = 0;
 	while (x < map->n_rows)
@@ -107,13 +95,14 @@ void asign_colors(t_map *map)
 			if (map->c[x][y].z == max_z(map))
 				map->c[x][y].color = e_color;
 			else if (map->c[x][y].z == min_z(map))
-				map->c[x][y].color =s_color;
+				map->c[x][y].color = s_color;
 			else
 			 {
 			// 	if (map->c[x][y].z < 0)
 			// 		map->c[x][y].z = fabs(map->c[x][y].z);
 			// 	printf("map->c[x][y].z =  %f\n", map->c[x][y].z);
-				map->c[x][y].color = gradient(s_color, e_color, color_range, fabs(map->c[x][y].z));
+				map->c[x][y].color = gradient(s_color, e_color, 
+						color_range, fabs(map->c[x][y].z));
 			}
 			y++;
 		}

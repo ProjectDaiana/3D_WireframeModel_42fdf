@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:47 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 20:09:02 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:41:59 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	handle_keypress(int keysym, t_data *data)
 		data->map.scale += 1;
 	if (keysym == XK_KP_Subtract)
 	{
-		if (data->map.scale > 10)
+		if (data->map.scale > 5)
 			data->map.scale -= 0.5;
 	}
 	return (0);

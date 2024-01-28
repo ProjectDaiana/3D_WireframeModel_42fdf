@@ -79,12 +79,13 @@ int		handle_keyrelease(int keysym, void *data);
 int		handle_leftclick(int click, int x, int y, t_data *data);
 int		follow_mouse(t_data *data);
 int		close_window(t_data *data);
+int		ft_printf(const char *format, ...);
 
 void	*mlx_new_image(void *mlx_ptr,int width,int height);
 void	img_pix_put(t_img *img, int x, int y, int color);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
 
-char	*file_path(char *argv);
+char	*file_name(char *argv);
 void	import_map(char argv[1], t_data *data);
 char	*get_next_line(int fd);
 
@@ -101,7 +102,7 @@ int		gradient(int s_color, int e_color, int line_len, int i);
 
 int		destroy_win_and_img(t_data *data);
 void	free_stuff(t_data *data);
-void	free_arr2D(char **arr2D);
+void	free_array(char **array);
 int		free_gnl_buff(int fd, char *lines);
 
 

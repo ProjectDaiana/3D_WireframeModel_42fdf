@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:09 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/26 18:28:10 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 23:05:53 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,9 +128,11 @@ void	convert_to_iso(t_map *map)
 			z_val = (map->c[x][y].z) * map->scale;
 			x_offs = ((x - map->n_rows / 2) * map->scale);
 			y_offs = ((y - map->n_cols / 2) * map->scale);
-			map->c[x][y].x_t = (-x_offs * cos(map->a_z) - y_offs * sin(map->a_z)) + map->x_mouse_mov;
+			map->c[x][y].x_t = (-x_offs * cos(map->a_z)
+					- y_offs * sin(map->a_z)) + map->x_mouse_mov;
 			map->c[x][y].y_t = -x_offs * sin(map->a_z) + y_offs * cos(map->a_z);
-			map->c[x][y].y_t = (map->c[x][y].y_t * cos(map->a_x) - z_val * sin(map->a_x)) + map->y_mouse_mov;
+			map->c[x][y].y_t = (map->c[x][y].y_t * cos(map->a_x)
+					- z_val * sin(map->a_x)) + map->y_mouse_mov;
 			y++;
 		}
 		x++;
@@ -145,11 +147,12 @@ void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_colo
 	int	x;
 	int	y;
 	int	colour;
+	double	line_len;
 
 	dx = x2 - x1;
 	dy = y2 - y1;
 	i = 0;
-	double line_len = hypot(dx, dy);
+	line_len = hypot(dx, dy);
 	while (i < line_len)
 	{
 		colour = gradient(color, n_color, line_len, i);
@@ -162,14 +165,14 @@ void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_colo
 
 void	draw_lines(t_img *img, t_map *map)
 {
-	int x;
-	int y;
-	int nx;
-	int ny;
-	int nx_next;
-	int ny_next;
-	int color;
-	int n_color;
+	int	x;
+	int	y;
+	int	nx;
+	int	ny;
+	int	nx_next;
+	int	ny_next;
+	int	color;
+	int	n_color;
 
 	x = 0;
 	asign_colors(map);

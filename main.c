@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:33 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 19:41:30 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 20:58:42 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	render(t_data *data)
 
 	if (data->win_ptr == NULL)
 		return (1);
-	if (data->img.mlx_img && (last_a_z != data->map.a_z || last_a_x != data->map.a_x))
+	if (data->img.mlx_img && (last_a_z != data->map.a_z
+			|| last_a_x != data->map.a_x))
 	{
 		mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
 		data->img.mlx_img = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
@@ -33,7 +34,8 @@ int	render(t_data *data)
 	follow_mouse(data);
 	convert_to_iso(&data->map);
 	draw_lines(&data->img, &data->map);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
+		data->img.mlx_img, 0, 0);
 	last_a_z = data->map.a_z;
 	last_a_x = data->map.a_x;
 	return (0);
@@ -45,7 +47,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		printf(RED"Wrong arguments. Insert ./fdf and map name.\n"WHT);
+		ft_printf(RED"Wrong arguments. Insert ./fdf and map name.\n"WHT);
 		exit(1);
 	}
 	data.mlx_ptr = mlx_init();
@@ -54,7 +56,7 @@ int	main(int argc, char **argv)
 	data.win_ptr = mlx_new_window(data.mlx_ptr, W_WIDTH, W_HEIGHT, "fdf");
 	if (data.win_ptr == NULL)
 		return (MLX_ERROR);
-	import_map(file_path(argv[1]), &data);
+	import_map(file_name(argv[1]), &data);
 	data.img.mlx_img = mlx_new_image(data.mlx_ptr, W_WIDTH, W_HEIGHT);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp,
 			&data.img.line_len, &data.img.endian);

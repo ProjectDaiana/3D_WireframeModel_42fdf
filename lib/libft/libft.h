@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 13:28:30 by darotche          #+#    #+#             */
-/*   Updated: 2023/12/30 12:31:31 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 21:06:43 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdarg.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 3955
@@ -72,5 +73,14 @@ char			*ft_read(int fd, char *stash);
 char			*ft_newline(char *stash);
 char			*ft_newstash(char *stash);
 int				ft_strcount(char const *s, char c);
+
+int				ft_printf(const char *format, ...);
+int				ft_check_format(const char i, va_list list, int count);
+int				ft_putchar(char c);
+int				ft_put_hex(unsigned int num, int c);
+int				ft_put_unsigned(unsigned int n);
+int				ft_putnbr(int n);
+int				ft_put_adr(unsigned long n);
+int				ft_putstr(char *str);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:33 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/26 17:40:47 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:11:24 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 	{
 		printf(RED"Wrong arguments. Insert ./fdf and map name"WHT);
-		exit(0);
+		exit(1);
 	}
 	data.win_ptr = mlx_new_window(data.mlx_ptr, W_WIDTH, W_HEIGHT, "fdf");
 	if (data.win_ptr == NULL)

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:54 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/26 18:39:20 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:06:59 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ int	free_gnl_buff(int fd, char *line)
 	}
 	free(line);
 	return (0);
+}
+
+int destroy_win_and_img(t_data *data) 
+{
+    if (data->img.mlx_img != NULL) {
+        mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+        data->img.mlx_img = NULL;
+    }
+    if (data->win_ptr != NULL) {
+        mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+        data->win_ptr = NULL;
+        free(data->win_ptr);
+    }
+    if (data->mlx_ptr != NULL) {
+        mlx_destroy_display(data->mlx_ptr);
+        data->mlx_ptr = NULL;
+        free(data->mlx_ptr);
+    }
+    exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/26 18:51:16 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/28 19:12:35 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ int	count_rows(int fd)
 char	*file_path (char *argv)
 {
 	char *filepath = ft_strjoin( "./test_maps/", argv);
-	char *filename = ft_strjoin(filepath, ".fdf");
-	free (filepath);
-	return (filename);
+	return (filepath);
 }
 
 void	import_map(char *file, t_data * data)

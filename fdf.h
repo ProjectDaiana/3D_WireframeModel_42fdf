@@ -99,9 +99,10 @@ void	asign_colors(t_map *map);
 int		gradient(int s_color, int e_color, int line_len, int i);
 
 
-
+int		destroy_win_and_img(t_data *data);
 void	free_stuff(t_data *data);
 void	free_arr2D(char **arr2D);
 int		free_gnl_buff(int fd, char *lines);
+
 
 #endif

@@ -92,7 +92,7 @@ char	*get_next_line(int fd);
 int		render(t_data *data);
 int		line_to_coords(char *str, t_data *data, int row);
 void	draw_lines(t_img *img, t_map *map);
-void	convert_to_iso(t_map *map);
+void	convert_to_iso(t_map *map, t_data *data);
 
 int		max_z(t_map *map);
 int		min_z(t_map *map);

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:09 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 23:05:53 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/30 18:07:45 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 	}
 }
 
-void	convert_to_iso(t_map *map)
+void	convert_to_iso(t_map *map, t_data *data)
 {
 	int		z_val;
 	int		x;
@@ -120,6 +120,7 @@ void	convert_to_iso(t_map *map)
 	double	y_offs;
 
 	x = 0;
+	follow_mouse(data);
 	while (x < map->n_rows)
 	{
 		y = 0;
@@ -141,23 +142,19 @@ void	convert_to_iso(t_map *map)
 
 void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_color)
 {
-	int	dx;
-	int	dy;
-	int	i;
-	int	x;
-	int	y;
-	int	colour;
+	int		x;
+	int		y;
+	int		i;
+	int		colour;
 	double	line_len;
 
-	dx = x2 - x1;
-	dy = y2 - y1;
 	i = 0;
-	line_len = hypot(dx, dy);
+	line_len = hypot((x2 - x1), (y2 - y1));
 	while (i < line_len)
 	{
 		colour = gradient(color, n_color, line_len, i);
-		x = x1 + i * dx / line_len;
-		y = y1 + i * dy / line_len;
+		x = x1 + i * (x2 - x1) / line_len;
+		y = y1 + i * (y2 - y1) / line_len;
 		img_pix_put(img, x, y, colour);
 		i++;
 	}
@@ -167,39 +164,92 @@ void	draw_lines(t_img *img, t_map *map)
 {
 	int	x;
 	int	y;
-	int	nx;
-	int	ny;
-	int	nx_next;
-	int	ny_next;
-	int	color;
-	int	n_color;
-
+	
 	x = 0;
-	asign_colors(map);
 	while (x < map->n_rows)
 	{
 		y = 0;
 		while (y < map->n_cols)
 		{
-			nx = map->c[x][y].x_t;
-			ny = map->c[x][y].y_t;
-			color = map->c[x][y].color;
 			if (x < map->n_rows - 1)
 			{
-				nx_next = map->c[x + 1][y].x_t;
-				ny_next = map->c[x + 1][y].y_t;
-				n_color = map->c[x + 1][y].color;
-				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
+				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
+					map->c[x + 1][y].x_t, map->c[x + 1][y].y_t,
+					map->c[x][y].color, map->c[x + 1][y].color);
 			}
 			if (y < map->n_cols - 1)
 			{
-				nx_next = map->c[x][y + 1].x_t;
-				ny_next = map->c[x][y + 1].y_t;
-				n_color = map->c[x][y + 1].color;
-				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
+				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
+					map->c[x][y + 1].x_t, map->c[x][y + 1].y_t,
+					map->c[x][y].color, map->c[x][y + 1].color);
 			}
 			y++;
 		}
 		x++;
 	}
 }
+
+// void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_color)
+// {
+// 	int	dx;
+// 	int	dy;
+// 	int	i;
+// 	int	x;
+// 	int	y;
+// 	int	colour;
+// 	double	line_len;
+
+// 	dx = x2 - x1;
+// 	dy = y2 - y1;
+// 	i = 0;
+// 	line_len = hypot(dx, dy);
+// 	while (i < line_len)
+// 	{
+// 		colour = gradient(color, n_color, line_len, i);
+// 		x = x1 + i * dx / line_len;
+// 		y = y1 + i * dy / line_len;
+// 		img_pix_put(img, x, y, colour);
+// 		i++;
+// 	}
+// }
+
+// void	draw_lines(t_img *img, t_map *map)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	nx;
+// 	int	ny;
+// 	int	nx_next;
+// 	int	ny_next;
+// 	int	color;
+// 	int	n_color;
+
+// 	x = 0;
+// 	asign_colors(map);
+// 	while (x < map->n_rows)
+// 	{
+// 		y = 0;
+// 		while (y < map->n_cols)
+// 		{
+// 			nx = map->c[x][y].x_t;
+// 			ny = map->c[x][y].y_t;
+// 			color = map->c[x][y].color;
+// 			if (x < map->n_rows - 1)
+// 			{
+// 				nx_next = map->c[x + 1][y].x_t;
+// 				ny_next = map->c[x + 1][y].y_t;
+// 				n_color = map->c[x + 1][y].color;
+// 				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
+// 			}
+// 			if (y < map->n_cols - 1)
+// 			{
+// 				nx_next = map->c[x][y + 1].x_t;
+// 				ny_next = map->c[x][y + 1].y_t;
+// 				n_color = map->c[x][y + 1].color;
+// 				draw_line(img, nx, ny, nx_next, ny_next, color, n_color);
+// 			}
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }

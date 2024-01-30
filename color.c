@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 23:02:34 by darotche         ###   ########.fr       */
+/*   Updated: 2024/01/30 17:28:56 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	asign_colors(t_map *map)
 			else if (map->c[x][y].z == min_z(map))
 				map->c[x][y].color = s_color;
 			else
-			 {
+			{
 			// 	if (map->c[x][y].z < 0)
 			// 		map->c[x][y].z = fabs(map->c[x][y].z);
 			// 	printf("map->c[x][y].z =  %f\n", map->c[x][y].z);

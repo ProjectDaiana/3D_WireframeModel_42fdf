@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/30 17:28:56 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:17:05 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ void	asign_colors(t_map *map)
 
 	s_color = RGB(50, 0, 110);
 	e_color = RGB(180, 120, 180);
+	e_color = RGB(255, 255, 255);
+	s_color = RGB(255, 255, 255);
 	color_range = abs(max_z(map)) + abs(min_z(map)) - 2;
 	x = 0;
 	while (x < map->n_rows)
@@ -89,20 +91,14 @@ void	asign_colors(t_map *map)
 		y = 0;
 		while (y < map->n_cols)
 		{
-			// printf("max_z %d\n", max_z(map));
-			// printf("min_z %d\n", min_z(map));
-			// printf("color_range = %d\n",color_range);
 			if (map->c[x][y].z == max_z(map))
 				map->c[x][y].color = e_color;
 			else if (map->c[x][y].z == min_z(map))
 				map->c[x][y].color = s_color;
 			else
 			{
-			// 	if (map->c[x][y].z < 0)
-			// 		map->c[x][y].z = fabs(map->c[x][y].z);
-			// 	printf("map->c[x][y].z =  %f\n", map->c[x][y].z);
 				map->c[x][y].color = gradient(s_color, e_color, 
-						color_range, fabs(map->c[x][y].z));
+						color_range, abs(map->c[x][y].z));
 			}
 			y++;
 		}

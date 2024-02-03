@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 22:58:48 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:58:50 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ int	line_to_coords(char *str, t_data *data, int row)
 	{
 		data->map.c[row][col].z = ft_atoi(c[col]);
 		col++;
+	}
+	if (col >= data->map.max_n_cols)
+		data->map.max_n_cols = col;
+	else
+	{
+		ft_printf(RED"Mapa defectuoso. Exiting program.\n"WHT);
+		exit (1);
 	}
 	free_array(c);
 	return (0);
@@ -59,13 +66,10 @@ char	*file_name(char *argv)
 	return (filename);
 }
 
-void	import_map(char *file, t_data *data)
+void	start_map(t_data *data, char *file)
 {
 	int		fd;
-	int		i;
-	char	**lines;
 
-	i = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
@@ -79,6 +83,16 @@ void	import_map(char *file, t_data *data)
 	data->map.n_rows = count_rows(fd);
 	data->map.c = malloc ((sizeof(t_coords *) * data->map.n_rows));
 	close(fd);
+}
+
+void	import_map(char *file, t_data *data)
+{
+	int		fd;
+	int		i;
+	char	**lines;
+
+	i = 0;
+	start_map(data, file);
 	fd = open(file, O_RDONLY);
 	lines = malloc(sizeof(char *) * data->map.n_rows);
 	while (i < data->map.n_rows)
@@ -95,10 +109,7 @@ void	import_map(char *file, t_data *data)
 	}
 	i = 0;
 	while (i < data->map.n_rows)
-	{
-		free (lines[i]);
-		i++;
-	}
+		free (lines[i++]);
 	free (lines);
 	free (file);
 }

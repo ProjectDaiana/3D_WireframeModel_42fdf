@@ -34,13 +34,14 @@ typedef struct s_coords
 {
 	int x_t;
 	int y_t;
-	double z;
+	int	z;
 	int	color;
 } t_coords;
 
 typedef struct s_map
 {
 	int		n_cols;
+	int		max_n_cols;
 	int		n_rows;
 	double	a_x;
 	double	a_z;
@@ -86,6 +87,7 @@ void	img_pix_put(t_img *img, int x, int y, int color);
 char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
 
 char	*file_name(char *argv);
+void	start_map(t_data *data, char *file);
 void	import_map(char argv[1], t_data *data);
 char	*get_next_line(int fd);
 
@@ -104,6 +106,7 @@ int		destroy_win_and_img(t_data *data);
 void	free_stuff(t_data *data);
 void	free_array(char **array);
 int		free_gnl_buff(int fd, char *lines);
+void	free_map(t_map *map, int rows);
 
 
 #endif

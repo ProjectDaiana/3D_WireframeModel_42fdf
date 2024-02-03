@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/06 14:49:27 by darotche          #+#    #+#             */
+/*   Updated: 2024/02/03 20:06:13 by darotche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-static size_t ft_spec_strlen(char *str)
+static size_t	ft_spec_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!str)
@@ -12,10 +24,10 @@ static size_t ft_spec_strlen(char *str)
 	return (i);
 }
 
-char *ft_spec_strjoin(char *str1, char *str2)
+char	*ft_spec_strjoin(char *str1, char *str2)
 {
-	int i;
-	char *newstr;
+	int		i;
+	char	*newstr;
 
 	i = 0;
 	newstr = malloc(ft_spec_strlen(str1) + ft_spec_strlen(str2) + 1);
@@ -31,17 +43,17 @@ char *ft_spec_strjoin(char *str1, char *str2)
 	{
 		newstr[i++] = *str2;
 		if (*str2++ == '\n')
-			break;
+			break ;
 	}
 	newstr[i] = '\0';
 	return (newstr);
 }
 
-static int shift_buff(char *buff)
+static int	shift_buff(char *buff)
 {
-	int old_index;
-	int end_of_line;
-	int new_index;
+	int	old_index;
+	int	end_of_line;
+	int	new_index;
 
 	old_index = 0;
 	new_index = 0;
@@ -57,13 +69,13 @@ static int shift_buff(char *buff)
 	return (end_of_line);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char buff[BUFFER_SIZE + 1];
-	char *line;
+	static char	buff[BUFFER_SIZE + 1];
+	char		*line;
 
 	line = NULL;
-	if (BUFFER_SIZE < 1 || read(fd, 0, 0) < 0 || fd < 0 )
+	if (BUFFER_SIZE < 1 || read(fd, 0, 0) < 0 || fd < 0)
 	{
 		buff[0] = '\0';
 		return (NULL);
@@ -72,7 +84,7 @@ char *get_next_line(int fd)
 	{
 		line = ft_spec_strjoin(line, buff);
 		if (shift_buff(buff))
-			break;
+			break ;
 	}
 	return (line);
 }

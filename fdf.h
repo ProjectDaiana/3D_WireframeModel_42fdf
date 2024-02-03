@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
+/*   Updated: 2024/02/03 20:30:08 by darotche         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FDF_H
 # define FDF_H
 
@@ -29,40 +41,39 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-
 typedef struct s_coords
 {
-	int x_t;
-	int y_t;
+	int	x_t;
+	int	y_t;
 	int	z;
 	int	color;
-} t_coords;
+}	t_coords;
 
 typedef struct s_map
 {
-	int		n_cols;
-	int		max_n_cols;
-	int		n_rows;
-	double	a_x;
-	double	a_z;
-	int		scale;
-	bool	click;
-	int		x_mouse_pos;
-	int		y_mouse_pos;
-	int		x_mouse_mov;
-	int		y_mouse_mov;
-	int		min_z;
-	int		max_z;
-	t_coords **c;
+	int			n_cols;
+	int			max_n_cols;
+	int			n_rows;
+	double		a_x;
+	double		a_z;
+	int			scale;
+	bool		click;
+	int			x_mouse_pos;
+	int			y_mouse_pos;
+	int			x_mouse_mov;
+	int			y_mouse_mov;
+	int			min_z;
+	int			max_z;
+	t_coords	**c;
 }	t_map;
 
 typedef struct s_img
 {
-    void	*mlx_img;
-    char	*addr;
-    int		bpp; /* bits per pixel */
-    int		line_len;
-    int		endian;
+	void	*mlx_img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
 }	t_img;
 
 typedef struct s_data
@@ -82,9 +93,10 @@ int		follow_mouse(t_data *data);
 int		close_window(t_data *data);
 int		ft_printf(const char *format, ...);
 
-void	*mlx_new_image(void *mlx_ptr,int width,int height);
+void	*mlx_new_image(void *mlx_ptr, int width, int height);
 void	img_pix_put(t_img *img, int x, int y, int color);
-char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel, int *size_line, int *endian);
+char	*mlx_get_data_addr(void *img_ptr, int *bits_per_pixel,
+			int *size_line, int *endian);
 
 char	*file_name(char *argv);
 void	start_map(t_data *data, char *file);
@@ -101,12 +113,10 @@ int		min_z(t_map *map);
 void	asign_colors(t_map *map);
 int		gradient(int s_color, int e_color, int line_len, int i);
 
-
 int		destroy_win_and_img(t_data *data);
 void	free_stuff(t_data *data);
 void	free_array(char **array);
 int		free_gnl_buff(int fd, char *lines);
 void	free_map(t_map *map, int rows);
-
 
 #endif

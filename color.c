@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 20:17:05 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:36:21 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	asign_colors(t_map *map)
 
 	s_color = RGB(50, 0, 110);
 	e_color = RGB(180, 120, 180);
-	e_color = RGB(255, 255, 255);
-	s_color = RGB(255, 255, 255);
 	color_range = abs(max_z(map)) + abs(min_z(map)) - 2;
 	x = 0;
 	while (x < map->n_rows)

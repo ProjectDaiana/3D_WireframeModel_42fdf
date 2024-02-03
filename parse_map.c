@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 19:58:50 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:45:37 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	line_to_coords(char *str, t_data *data, int row)
 	}
 	if (col >= data->map.max_n_cols)
 		data->map.max_n_cols = col;
-	else
+	else if  (col < data->map.max_n_cols)
 	{
 		ft_printf(RED"Mapa defectuoso. Exiting program.\n"WHT);
 		exit (1);

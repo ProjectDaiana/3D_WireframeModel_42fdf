@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:09 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 20:25:52 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:51:23 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,17 +132,15 @@ void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_colo
 	int		x;
 	int		y;
 	int		i;
-	int		colour;
 	double	line_len;
 
 	i = 0;
 	line_len = hypot((x2 - x1), (y2 - y1));
 	while (i < line_len)
 	{
-		colour = gradient(color, n_color, line_len, i);
 		x = x1 + i * (x2 - x1) / line_len;
 		y = y1 + i * (y2 - y1) / line_len;
-		img_pix_put(img, x, y, colour);
+		img_pix_put(img, x, y, gradient(color, n_color, line_len, i));
 		i++;
 	}
 }

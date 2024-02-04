@@ -4,7 +4,7 @@ LIBFT= lib/libft/libft.a
 MLX = -L./lib/minilibx-linux -lmlx -lXext -lX11 -lm
 CC=cc
 
-SRCS = main.c draw.c handle_events.c parse_map.c free_stuff.c color.c
+SRCS = main.c draw.c handle_events.c parse_map.c free.c color.c utils.c
 OBJS	:= ${SRCS:.c=.o}
 
 RM=rm -rf

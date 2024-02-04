@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 20:45:37 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:22:56 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ int	line_to_coords(char *str, t_data *data, int row)
 	}
 	if (col >= data->map.max_n_cols)
 		data->map.max_n_cols = col;
-	else if  (col < data->map.max_n_cols)
+	else if (col < data->map.max_n_cols)
 	{
-		ft_printf(RED"Mapa defectuoso. Exiting program.\n"WHT);
-		exit (1);
+		ft_printf(RED"Can not read Map. Exiting program.\n"WHT);
+		free_array(c);
+		return (1);
 	}
 	free_array(c);
 	return (0);
@@ -73,7 +74,7 @@ void	start_map(t_data *data, char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf(RED"Error opening file.\n"WHT);
+		ft_printf(RED"Wrong file.\n"WHT);
 		free(file);
 		destroy_win_and_img(data);
 	}
@@ -104,7 +105,10 @@ void	import_map(char *file, t_data *data)
 	while (i < data->map.n_rows)
 	{
 		if (line_to_coords(lines[i], data, i) != 0)
+		{
 			destroy_win_and_img(data);
+			exit (0);
+		}
 		i++;
 	}
 	i = 0;
@@ -113,3 +117,4 @@ void	import_map(char *file, t_data *data)
 	free (lines);
 	free (file);
 }
+

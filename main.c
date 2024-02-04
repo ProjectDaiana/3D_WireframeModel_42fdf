@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:33 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/30 18:36:24 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:44:48 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	render(t_data *data)
 		data->img.mlx_img = mlx_new_image(data->mlx_ptr, W_WIDTH, W_HEIGHT);
 	}
 	convert_to_iso(&data->map, data);
-	asign_colors(&data->map);
+	asign_colors(&data->map, rgb(50, 0, 110), rgb(180, 120, 220));
 	draw_lines(&data->img, &data->map);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->img.mlx_img, 0, 0);

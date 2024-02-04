@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 20:30:08 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 17:43:36 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@
 # define CYN "\e[0;36m"
 # define WHT "\e[0;37m"
 # define RESET "\033[0m"
-
-# define R(a) (a) >> 16
-# define G(a) ((a) >> 8) & 0xFF
-# define B(a) (a) & 0xFF
-# define RGB(a, b, c) (((a) << 16) | ((b) << 8) | (c))
 
 # include <stdlib.h>
 # include <math.h>
@@ -110,11 +105,13 @@ void	convert_to_iso(t_map *map, t_data *data);
 
 int		max_z(t_map *map);
 int		min_z(t_map *map);
-void	asign_colors(t_map *map);
+//void	asign_colors(t_map *map);
+void	asign_colors(t_map *map, int s_color, int e_color);
+int		rgb(int r, int g, int b);
 int		gradient(int s_color, int e_color, int line_len, int i);
 
-int		destroy_win_and_img(t_data *data);
-void	free_stuff(t_data *data);
+void	destroy_win_and_img(t_data *data);
+void	free_row(t_data *data);
 void	free_array(char **array);
 int		free_gnl_buff(int fd, char *lines);
 void	free_map(t_map *map, int rows);

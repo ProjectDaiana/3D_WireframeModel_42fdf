@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_stuff.c                                       :+:      :+:    :+:   */
+/*   free_row.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:54 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/03 15:55:06 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 14:01:17 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_stuff(t_data *data)
+void	free_row(t_data *data)
 {
 	int	i;
 
@@ -30,12 +30,12 @@ void	free_array(char **arr)
 	int	i;
 
 	i = 0;
-	while (arr[i] != NULL && arr[i][0] != '\n')
+	while (arr[i] != NULL)
 		free(arr[i++]);
 	free(arr);
 }
 
-int	destroy_win_and_img(t_data *data)
+void	destroy_win_and_img(t_data *data)
 {
 	if (data->img.mlx_img != NULL)
 	{
@@ -53,6 +53,6 @@ int	destroy_win_and_img(t_data *data)
 		free(data->mlx_ptr);
 		data->mlx_ptr = NULL;
 	}
-	free_stuff(data);
-	exit(0);
+	free_row(data);
+	return ;
 }

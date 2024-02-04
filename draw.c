@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:09 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 17:51:23 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/05 00:37:28 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,53 +127,6 @@ void	convert_to_iso(t_map *map, t_data *data)
 	}
 }
 
-void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_color)
-{
-	int		x;
-	int		y;
-	int		i;
-	double	line_len;
-
-	i = 0;
-	line_len = hypot((x2 - x1), (y2 - y1));
-	while (i < line_len)
-	{
-		x = x1 + i * (x2 - x1) / line_len;
-		y = y1 + i * (y2 - y1) / line_len;
-		img_pix_put(img, x, y, gradient(color, n_color, line_len, i));
-		i++;
-	}
-}
-
-void	draw_lines(t_img *img, t_map *map)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	while (x < map->n_rows)
-	{
-		y = 0;
-		while (y < map->n_cols)
-		{
-			if (x < map->n_rows - 1)
-			{
-				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
-					map->c[x + 1][y].x_t, map->c[x + 1][y].y_t,
-					map->c[x][y].color, map->c[x + 1][y].color);
-			}
-			if (y < map->n_cols - 1)
-			{
-				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
-					map->c[x][y + 1].x_t, map->c[x][y + 1].y_t,
-					map->c[x][y].color, map->c[x][y + 1].color);
-			}
-			y++;
-		}
-		x++;
-	}
-}
-
 void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
@@ -186,3 +139,118 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 		*(int *)pixel = color;
 	}
 }
+
+void	draw_line(t_img *img, t_line *line)
+{
+	int		x;
+	int		y;
+	int		i;
+	double	line_len;
+	int		color;
+
+	i = 0;
+	line_len = hypot((line->x2 - line->x1), (line->y2 - line->y1));
+	color = gradient(line->color1, line->color2, line_len, i);
+	while (i < line_len)
+	{
+		x = line->x1 + i * (line->x2 - line->x1) / line_len;
+		y = line->y1 + i * (line->y2 - line->y1) / line_len;
+		img_pix_put(img, x, y, color);
+		i++;
+	}
+}
+
+void set_line_params1(t_line *line, t_map *map, int x, int y)
+{
+    line->x1 = map->c[x][y].x_t;
+    line->y1 = map->c[x][y].y_t;
+    line->x2 = map->c[x + 1][y].x_t;
+    line->y2 = map->c[x + 1][y].y_t;
+    line->color1 = map->c[x][y].color;
+    line->color2 = map->c[x +1][y].color;
+}
+
+void set_line_params2(t_line *line, t_map *map, int x, int y)
+{
+	line->x1 = map->c[x][y].x_t;
+	line->y1 = map->c[x][y].y_t;
+	line->x2 = map->c[x][y + 1].x_t;
+	line->y2 = map->c[x][y + 1].y_t;
+	line->color1 = map->c[x][y].color;
+	line->color2 = map->c[x][y + 1].color;
+}
+
+void	draw_lines(t_img *img, t_map *map, t_line *line)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	while (x < map->n_rows)
+	{
+		y = 0;
+		while (y < map->n_cols)
+		{
+			if (x < map->n_rows - 1)
+			{
+				set_line_params1(line, map, x, y);
+				draw_line(img, line);
+			}
+			if (y < map->n_cols - 1)
+			{
+				set_line_params2(line, map, x, y);
+				draw_line(img, line);
+			}
+			y++;
+		}
+		x++;
+	}
+}
+
+
+// void	draw_line(t_img *img, int x1, int y1, int x2, int y2, int color, int n_color)
+// {
+// 	int		x;
+// 	int		y;
+// 	int		i;
+// 	double	line_len;
+
+// 	i = 0;
+// 	line_len = hypot((x2 - x1), (y2 - y1));
+// 	while (i < line_len)
+// 	{
+// 		x = x1 + i * (x2 - x1) / line_len;
+// 		y = y1 + i * (y2 - y1) / line_len;
+// 		img_pix_put(img, x, y, gradient(color, n_color, line_len, i));
+// 		i++;
+// 	}
+// }
+
+// void	draw_lines(t_img *img, t_map *map)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	x = 0;
+// 	while (x < map->n_rows)
+// 	{
+// 		y = 0;
+// 		while (y < map->n_cols)
+// 		{
+// 			if (x < map->n_rows - 1)
+// 			{
+// 				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
+// 					map->c[x + 1][y].x_t, map->c[x + 1][y].y_t,
+// 					map->c[x][y].color, map->c[x + 1][y].color);
+// 			}
+// 			if (y < map->n_cols - 1)
+// 			{
+// 				draw_line(img, map->c[x][y].x_t, map->c[x][y].y_t,
+// 					map->c[x][y + 1].x_t, map->c[x][y + 1].y_t,
+// 					map->c[x][y].color, map->c[x][y + 1].color);
+// 			}
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 22:11:37 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 23:14:02 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	start_map(t_data *data, char *file)
 		ft_printf(RED"Wrong file.\n"WHT);
 		free(file);
 		destroy_win_and_img(data);
+		exit (0);
 	}
 	data->map.a_x = 30.0 / 180 * PI;
 	data->map.a_z = 30.0 / 180 * PI;
@@ -97,42 +98,20 @@ void	import_map(char *file, t_data *data)
 	fd = open(file, O_RDONLY);
 	lines = ft_calloc(data->map.n_rows + 1, sizeof(char *));
 	while (i < data->map.n_rows)
-	{
-		lines[i] = get_next_line(fd);
-		i++;
-	}
+		lines[i++] = get_next_line(fd);
 	i = 0;
 	while (i < data->map.n_rows)
-	{	
+	{
 		if (line_to_coords(lines[i], data, i) != 0)
 		{
 			destroy_win_and_img(data);
-			int j = 0;
-			while(lines[j])
-				free (lines[j++]);
-			free (lines);
+			i = 0;
+			free_lines(lines);
 			free(file);
 			exit (0);
 		}
 		i++;
 	}
-	
-		// int read_lines = line_to_coords(lines[i], data, i);
-		// if (read_lines != 0)
-		// {
-		// 	//printf("read lines %d\n",read_lines);
-		// 	destroy_win_and_img(data);
-		// 	int j = 0;
-		// 	while(lines[j])
-		// 		free (lines[j++]);
-		// 	free (lines);
-		// 	free(file);
-		// 	exit (0);
-		// }
-		// i++;
-	i = 0;
-	while (i < data->map.n_rows)
-		free (lines[i++]);
-	free (lines);
-	free (file);
+	free_lines(lines);
+	free(file);
 }

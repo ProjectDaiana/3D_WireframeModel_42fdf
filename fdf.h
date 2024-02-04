@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 20:30:44 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/05 00:43:58 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@
 # include "lib/minilibx-linux/mlx.h"
 # include <stdbool.h>
 # include <stdio.h>
+
+typedef struct s_line
+{
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+    int color1;
+    int color2;
+} 	t_line;
 
 typedef struct s_coords
 {
@@ -77,6 +87,7 @@ typedef struct s_data
 	void	*win_ptr;
 	t_map	map;
 	t_img	img;
+	t_line line;
 }	t_data;
 
 int		handle_no_event(void *data);
@@ -100,7 +111,7 @@ char	*get_next_line(int fd);
 
 int		render(t_data *data);
 int		line_to_coords(char *str, t_data *data, int row);
-void	draw_lines(t_img *img, t_map *map);
+void	draw_lines(t_img *img, t_map *map, t_line *line );
 void	convert_to_iso(t_map *map, t_data *data);
 
 int		max_z(t_map *map);
@@ -110,9 +121,8 @@ int		rgb(int r, int g, int b);
 int		gradient(int s_color, int e_color, int line_len, int i);
 
 void	destroy_win_and_img(t_data *data);
+void	free_lines(char **lines);
 void	free_row(t_data *data);
 void	free_array(char **array);
-int		free_gnl_buff(int fd, char *lines);
-void	free_map(t_map *map, int rows);
 
 #endif

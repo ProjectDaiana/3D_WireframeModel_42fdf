@@ -17,12 +17,16 @@ void	free_row(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->map.n_rows)
+	if(data->map.c[i] != NULL)
 	{
-		free(data->map.c[i]);
-		i++;
-	}
+		while (i < data->map.n_rows)
+		{
+			free(data->map.c[i]);
+			i++;
+		}
 	free(data->map.c);
+	}
+	data->map.c = NULL;
 }
 
 void	free_array(char **arr)
@@ -56,3 +60,4 @@ void	destroy_win_and_img(t_data *data)
 	free_row(data);
 	return ;
 }
+

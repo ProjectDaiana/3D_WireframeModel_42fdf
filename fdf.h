@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 17:43:36 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 20:30:44 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	convert_to_iso(t_map *map, t_data *data);
 
 int		max_z(t_map *map);
 int		min_z(t_map *map);
-//void	asign_colors(t_map *map);
 void	asign_colors(t_map *map, int s_color, int e_color);
 int		rgb(int r, int g, int b);
 int		gradient(int s_color, int e_color, int line_len, int i);

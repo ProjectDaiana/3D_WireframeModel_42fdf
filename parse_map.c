@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:17 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 21:49:28 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 22:11:37 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,12 @@ int	line_to_coords(char *str, t_data *data, int row)
 {
 	char	**split_str;
 	int		col;
-	bool	flag;
 
 	col = 0;
-	flag = 0;
 	split_str = ft_split(str, ' ');
 	while (split_str[col] != NULL && split_str[col][0] != '\n')
-	{
 		col++;
-		flag = 1;
-	}
-	// if(col < data->map.n_cols && flag == 1)
-	// {
-	// 	ft_printf(RED"CANT READ MAP. Exiting program.\n"WHT);
-	// 	free_array(split_str);
-	// 	return (col);
-	// }	
 	data->map.n_cols = col;
-	//data->map.c[row] = malloc((sizeof(t_coords) * col));
 	data->map.c[row] = ft_calloc(col + 1, sizeof(t_coords));
 	col = 0;
 	while (split_str[col] != NULL && split_str[col][0] != '\n')

@@ -5,17 +5,7 @@
 [![Build](https://github.com/42Paris/minilibx-linux/actions/workflows/ci.yml/badge.svg)](https://github.com/42Paris/minilibx-linux/actions/workflows/ci.yml)
 
 This is the MinilibX, a simple X-Window (X11R6) programming API
-in C, designed for students, suitable for X-beginners.
-
-
-#### Contents
-
- - source code in C to create the mlx library
- - man pages (in man/ directory)
- - a test program (in test/ directory) is built
-   with the library
- - a public include file mlx.h
- - a tiny configure script to generate an appropriate Makefile.gen
+in C, created as a part of the 42 curriculum, suitable for X-beginners.
 
 #### Requirements for Linux
 

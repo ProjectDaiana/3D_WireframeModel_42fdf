@@ -1,7 +1,7 @@
 <table>
   <tr >
-    <td><img src="screenshot.png" alt="Screenshot" width="510"/></td>
-    <td><img src="fdf_daiana-ezgif.com-optimize.gif" alt="Animated GIF" width="490"/></td>
+    <td><img src="screenshot.png" alt="Screenshot" width="400"/></td>
+    <td><img src="fdf_daiana-ezgif.com-optimize.gif" alt="Animated GIF" width="400"/></td>
   </tr>
 </table>
 

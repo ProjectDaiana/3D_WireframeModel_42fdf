@@ -1,5 +1,5 @@
 ![screenshot](screenshot.png)
-![fdf_animated_git](fdf_animated_git.git)
+![fdf_animated_gif](fdf_daiana-ezgif.com-optimize.gif)
 
 ## 3d Wireframe Model README
 

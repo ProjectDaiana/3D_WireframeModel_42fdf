@@ -1,5 +1,10 @@
-![screenshot](screenshot.png)
-![fdf_animated_gif](fdf_daiana-ezgif.com-optimize.gif)
+<table>
+  <tr >
+    <td><img src="screenshot.png" alt="Screenshot" width="510"/></td>
+    <td><img src="fdf_daiana-ezgif.com-optimize.gif" alt="Animated GIF" width="490"/></td>
+  </tr>
+</table>
+
 
 ## 3d Wireframe Model README
 

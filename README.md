@@ -1,4 +1,5 @@
 ![screenshot](screenshot.png)
+![fdf_animated_git](fdf_animated_git.git)
 
 ## 3d Wireframe Model README
 

@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:11:25 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/05 00:43:58 by darotche         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:24:39 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,15 @@
 # include <math.h>
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include "lib/libft/libft.h"
-# include "lib/minilibx-linux/mlx.h"
+# include "../lib/libft/libft.h"
+# include "../lib/minilibx-linux/mlx.h"
 # include <stdbool.h>
 # include <stdio.h>
 
 typedef struct s_line
 {
-    int x1;
-    int y1;
+	int x1;
+int y1;
     int x2;
     int y2;
     int color1;

@@ -1,11 +1,12 @@
 NAME=fdf
-CFLAGS= -g -Wextra -Wall -Werror -I/usr/local/include
+CFLAGS= -g -Wextra -Wall -Werror -I/usr/local/includes -I./includes
 LIBFT= lib/libft/libft.a
 MLX = -L./lib/minilibx-linux -lmlx -lXext -lX11 -lm
 CC=cc
 
-SRCS = main.c draw.c handle_events.c parse_map.c free.c color.c utils.c
-OBJS	:= ${SRCS:.c=.o}
+SRCDIR = src includes
+SOURCES := $(shell find $(SRCDIR) -name '*.c')
+OBJS := ${SOURCES:.c=.o}
 
 RM=rm -rf
 

@@ -35,6 +35,16 @@ void	free_array(char **arr)
 	free(arr);
 }
 
+void	free_lines(char **lines)
+{
+	int	i;
+
+	i = 0;
+	while (lines[i])
+		free (lines[i++]);
+	free (lines);
+}
+
 void	destroy_win_and_img(t_data *data)
 {
 	if (data->img.mlx_img != NULL)

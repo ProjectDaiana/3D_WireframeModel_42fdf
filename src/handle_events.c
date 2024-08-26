@@ -6,12 +6,11 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 20:10:47 by darotche          #+#    #+#             */
-/*   Updated: 2024/02/04 16:53:33 by darotche         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:23:34 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
 int	close_window(t_data *data)
 {

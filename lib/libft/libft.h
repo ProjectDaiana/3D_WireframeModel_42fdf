@@ -6,7 +6,7 @@
 /*   By: darotche <darotche@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/28 13:28:30 by darotche          #+#    #+#             */
-/*   Updated: 2024/01/28 21:06:43 by darotche         ###   ########.fr       */
+/*   Updated: 2024/02/04 19:07:32 by darotche         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,7 @@
 # include <stdarg.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3955
-# endif
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 3955
+#  define BUFFER_SIZE 10
 # endif
 
 typedef struct s_list

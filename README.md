@@ -39,6 +39,8 @@ MlX Color Opacity / Transparency / Alpha (32 bits depth)
 
  - make
 
+#### Run
+```./fdf nameofmap.fdf```
 
 #### Install MinilibX
 
